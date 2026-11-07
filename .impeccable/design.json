@@ -1,0 +1,881 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T03:14:13.291360+00:00",
+  "title": "Design System: Tesslane",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Bg",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Rail",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Sidebar",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Surface Raised",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "surface-hover": {
+        "role": "neutral",
+        "displayName": "Surface Hover",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Line Strong",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "graph-dot": {
+        "role": "neutral",
+        "displayName": "Graph Dot",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "Green",
+        "tonalRamp": [
+          "oklch(15% 0.0193 158.42)",
+          "oklch(26% 0.0358 158.42)",
+          "oklch(38% 0.0468 158.42)",
+          "oklch(49% 0.0551 158.42)",
+          "oklch(61% 0.0551 158.42)",
+          "oklch(72% 0.0468 158.42)",
+          "oklch(84% 0.0275 158.42)",
+          "oklch(95% 0.0099 158.42)"
+        ]
+      },
+      "amber": {
+        "role": "secondary",
+        "displayName": "Amber",
+        "tonalRamp": [
+          "oklch(15% 0.0258 80.92)",
+          "oklch(26% 0.0479 80.92)",
+          "oklch(38% 0.0626 80.92)",
+          "oklch(49% 0.0736 80.92)",
+          "oklch(61% 0.0736 80.92)",
+          "oklch(72% 0.0626 80.92)",
+          "oklch(84% 0.0368 80.92)",
+          "oklch(95% 0.0133 80.92)"
+        ]
+      },
+      "violet": {
+        "role": "secondary",
+        "displayName": "Violet",
+        "tonalRamp": [
+          "oklch(15% 0.0252 301.48)",
+          "oklch(26% 0.0468 301.48)",
+          "oklch(38% 0.0611 301.48)",
+          "oklch(49% 0.0719 301.48)",
+          "oklch(61% 0.0719 301.48)",
+          "oklch(72% 0.0611 301.48)",
+          "oklch(84% 0.0360 301.48)",
+          "oklch(95% 0.0129 301.48)"
+        ]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0181 249.42)",
+          "oklch(26% 0.0337 249.42)",
+          "oklch(38% 0.0440 249.42)",
+          "oklch(49% 0.0518 249.42)",
+          "oklch(61% 0.0518 249.42)",
+          "oklch(72% 0.0440 249.42)",
+          "oklch(84% 0.0259 249.42)",
+          "oklch(95% 0.0093 249.42)"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "Red",
+        "tonalRamp": [
+          "oklch(15% 0.0241 18.75)",
+          "oklch(26% 0.0447 18.75)",
+          "oklch(38% 0.0585 18.75)",
+          "oklch(49% 0.0688 18.75)",
+          "oklch(61% 0.0688 18.75)",
+          "oklch(72% 0.0585 18.75)",
+          "oklch(84% 0.0344 18.75)",
+          "oklch(95% 0.0124 18.75)"
+        ]
+      },
+      "light-bg": {
+        "role": "neutral",
+        "displayName": "Light Bg",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-rail": {
+        "role": "neutral",
+        "displayName": "Light Rail",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-sidebar": {
+        "role": "neutral",
+        "displayName": "Light Sidebar",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-surface": {
+        "role": "neutral",
+        "displayName": "Light Surface",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-surface-raised": {
+        "role": "neutral",
+        "displayName": "Light Surface Raised",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-surface-hover": {
+        "role": "neutral",
+        "displayName": "Light Surface Hover",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-selection": {
+        "role": "neutral",
+        "displayName": "Light Selection",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-text": {
+        "role": "neutral",
+        "displayName": "Light Text",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-muted": {
+        "role": "neutral",
+        "displayName": "Light Muted",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-faint": {
+        "role": "neutral",
+        "displayName": "Light Faint",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-line": {
+        "role": "neutral",
+        "displayName": "Light Line",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-line-strong": {
+        "role": "neutral",
+        "displayName": "Light Line Strong",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-graph-dot": {
+        "role": "neutral",
+        "displayName": "Light Graph Dot",
+        "tonalRamp": [
+          "#1b1b1d",
+          "#242426",
+          "#343437",
+          "#62616a",
+          "#a4a3aa",
+          "#dddbda",
+          "#efeeed",
+          "#f7f6f5"
+        ]
+      },
+      "light-green": {
+        "role": "secondary",
+        "displayName": "Light Green",
+        "tonalRamp": [
+          "oklch(15% 0.0241 158.74)",
+          "oklch(26% 0.0447 158.74)",
+          "oklch(38% 0.0585 158.74)",
+          "oklch(49% 0.0688 158.74)",
+          "oklch(61% 0.0688 158.74)",
+          "oklch(72% 0.0585 158.74)",
+          "oklch(84% 0.0344 158.74)",
+          "oklch(95% 0.0124 158.74)"
+        ]
+      },
+      "light-amber": {
+        "role": "secondary",
+        "displayName": "Light Amber",
+        "tonalRamp": [
+          "oklch(15% 0.0269 81.81)",
+          "oklch(26% 0.0500 81.81)",
+          "oklch(38% 0.0653 81.81)",
+          "oklch(49% 0.0769 81.81)",
+          "oklch(61% 0.0769 81.81)",
+          "oklch(72% 0.0653 81.81)",
+          "oklch(84% 0.0384 81.81)",
+          "oklch(95% 0.0138 81.81)"
+        ]
+      },
+      "light-violet": {
+        "role": "secondary",
+        "displayName": "Light Violet",
+        "tonalRamp": [
+          "oklch(15% 0.0339 302.91)",
+          "oklch(26% 0.0630 302.91)",
+          "oklch(38% 0.0824 302.91)",
+          "oklch(49% 0.0970 302.91)",
+          "oklch(61% 0.0970 302.91)",
+          "oklch(72% 0.0824 302.91)",
+          "oklch(84% 0.0485 302.91)",
+          "oklch(95% 0.0175 302.91)"
+        ]
+      },
+      "light-blue": {
+        "role": "secondary",
+        "displayName": "Light Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0230 255.01)",
+          "oklch(26% 0.0427 255.01)",
+          "oklch(38% 0.0559 255.01)",
+          "oklch(49% 0.0658 255.01)",
+          "oklch(61% 0.0658 255.01)",
+          "oklch(72% 0.0559 255.01)",
+          "oklch(84% 0.0329 255.01)",
+          "oklch(95% 0.0118 255.01)"
+        ]
+      },
+      "light-red": {
+        "role": "secondary",
+        "displayName": "Light Red",
+        "tonalRamp": [
+          "oklch(15% 0.0450 22.53)",
+          "oklch(26% 0.0835 22.53)",
+          "oklch(38% 0.1092 22.53)",
+          "oklch(49% 0.1284 22.53)",
+          "oklch(61% 0.1284 22.53)",
+          "oklch(72% 0.1092 22.53)",
+          "oklch(84% 0.0642 22.53)",
+          "oklch(95% 0.0231 22.53)"
+        ]
+      },
+      "silver-button": {
+        "role": "primary",
+        "displayName": "Silver Button",
+        "tonalRamp": [
+          "oklch(15% 0.0015 301.42)",
+          "oklch(26% 0.0027 301.42)",
+          "oklch(38% 0.0036 301.42)",
+          "oklch(49% 0.0042 301.42)",
+          "oklch(61% 0.0042 301.42)",
+          "oklch(72% 0.0036 301.42)",
+          "oklch(84% 0.0021 301.42)",
+          "oklch(95% 0.0008 301.42)"
+        ]
+      },
+      "silver-button-text": {
+        "role": "primary",
+        "displayName": "Silver Button Text",
+        "tonalRamp": [
+          "oklch(15% 0.0026 297.35)",
+          "oklch(26% 0.0048 297.35)",
+          "oklch(38% 0.0063 297.35)",
+          "oklch(49% 0.0074 297.35)",
+          "oklch(61% 0.0074 297.35)",
+          "oklch(72% 0.0063 297.35)",
+          "oklch(84% 0.0037 297.35)",
+          "oklch(95% 0.0013 297.35)"
+        ]
+      },
+      "silver-button-border": {
+        "role": "primary",
+        "displayName": "Silver Button Border",
+        "tonalRamp": [
+          "oklch(15% 0.0019 297.72)",
+          "oklch(26% 0.0035 297.72)",
+          "oklch(38% 0.0046 297.72)",
+          "oklch(49% 0.0054 297.72)",
+          "oklch(61% 0.0054 297.72)",
+          "oklch(72% 0.0046 297.72)",
+          "oklch(84% 0.0027 297.72)",
+          "oklch(95% 0.0010 297.72)"
+        ]
+      },
+      "silver-button-hover": {
+        "role": "primary",
+        "displayName": "Silver Button Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0010 308.43)",
+          "oklch(26% 0.0019 308.43)",
+          "oklch(38% 0.0024 308.43)",
+          "oklch(49% 0.0029 308.43)",
+          "oklch(61% 0.0029 308.43)",
+          "oklch(72% 0.0024 308.43)",
+          "oklch(84% 0.0014 308.43)",
+          "oklch(95% 0.0005 308.43)"
+        ]
+      },
+      "nav-violet": {
+        "role": "secondary",
+        "displayName": "Nav Violet",
+        "tonalRamp": [
+          "oklch(15% 0.0278 302.94)",
+          "oklch(26% 0.0517 302.94)",
+          "oklch(38% 0.0676 302.94)",
+          "oklch(49% 0.0795 302.94)",
+          "oklch(61% 0.0795 302.94)",
+          "oklch(72% 0.0676 302.94)",
+          "oklch(84% 0.0398 302.94)",
+          "oklch(95% 0.0143 302.94)"
+        ]
+      },
+      "nav-amber": {
+        "role": "secondary",
+        "displayName": "Nav Amber",
+        "tonalRamp": [
+          "oklch(15% 0.0314 75.54)",
+          "oklch(26% 0.0584 75.54)",
+          "oklch(38% 0.0763 75.54)",
+          "oklch(49% 0.0898 75.54)",
+          "oklch(61% 0.0898 75.54)",
+          "oklch(72% 0.0763 75.54)",
+          "oklch(84% 0.0449 75.54)",
+          "oklch(95% 0.0162 75.54)"
+        ]
+      },
+      "nav-green": {
+        "role": "secondary",
+        "displayName": "Nav Green",
+        "tonalRamp": [
+          "oklch(15% 0.0210 160.28)",
+          "oklch(26% 0.0390 160.28)",
+          "oklch(38% 0.0510 160.28)",
+          "oklch(49% 0.0600 160.28)",
+          "oklch(61% 0.0600 160.28)",
+          "oklch(72% 0.0510 160.28)",
+          "oklch(84% 0.0300 160.28)",
+          "oklch(95% 0.0108 160.28)"
+        ]
+      },
+      "nav-blue": {
+        "role": "secondary",
+        "displayName": "Nav Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0194 245.23)",
+          "oklch(26% 0.0361 245.23)",
+          "oklch(38% 0.0472 245.23)",
+          "oklch(49% 0.0555 245.23)",
+          "oklch(61% 0.0555 245.23)",
+          "oklch(72% 0.0472 245.23)",
+          "oklch(84% 0.0277 245.23)",
+          "oklch(95% 0.0100 245.23)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "Page Title",
+        "purpose": "Main workspace title."
+      },
+      "section-title": {
+        "displayName": "Section Title",
+        "purpose": "Overview summary title."
+      },
+      "panel-title": {
+        "displayName": "Panel Title",
+        "purpose": "Compact section and dialog headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Inherited interface size and paragraph rhythm."
+      },
+      "description": {
+        "displayName": "Description",
+        "purpose": "Summary and feature explanatory copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation, tabs and compact labels."
+      },
+      "status": {
+        "displayName": "Status",
+        "purpose": "Execution-state labels and supporting metadata."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Paths, diffs and recorded evidence."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog-dark",
+        "value": "0 14px 55px #0005",
+        "purpose": "Dark-theme --shadow."
+      },
+      {
+        "name": "dialog-light",
+        "value": "0 14px 55px #352d3c20",
+        "purpose": "Light-theme --shadow."
+      },
+      {
+        "name": "primary-control",
+        "value": "inset 0 1px #fff9, 0 1px 3px #0002",
+        "purpose": "Silver action relief."
+      },
+      {
+        "name": "navigation-symbol",
+        "value": "inset 0 1px #fff3, 0 1px 3px #0003",
+        "purpose": "Small colored rail tiles."
+      },
+      {
+        "name": "summary",
+        "value": "0 1px 2px #0002",
+        "purpose": "Quiet overview grouping."
+      },
+      {
+        "name": "graph-node",
+        "value": "0 3px 8px #0002",
+        "purpose": "Agent card lift."
+      },
+      {
+        "name": "graph-chosen",
+        "value": "0 0 0 2px #a39baa18",
+        "purpose": "Chosen-node ring."
+      },
+      {
+        "name": "composer",
+        "value": "0 1px 4px #0002",
+        "purpose": "Conversation composer."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background 0.16s, border-color 0.16s",
+        "purpose": "Control hover state."
+      },
+      {
+        "name": "disclosure",
+        "value": "transform 0.15s",
+        "purpose": "Ticket disclosure rotation."
+      },
+      {
+        "name": "progress",
+        "value": "width 0.2s",
+        "purpose": "Integrated-ticket progress."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce)",
+        "purpose": "Disable animation and transition and restore automatic scrolling."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-desktop-min",
+        "value": "1700px"
+      },
+      {
+        "name": "laptop-max",
+        "value": "1270px"
+      },
+      {
+        "name": "compact-laptop-max",
+        "value": "1050px"
+      },
+      {
+        "name": "sidebar-fallback-max",
+        "value": "850px"
+      },
+      {
+        "name": "overlay-fallback-max",
+        "value": "650px"
+      }
+    ],
+    "focus": {
+      "value": "2px solid var(--blue)",
+      "offset": "3px",
+      "purpose": "Global native-control focus-visible and search focus-within."
+    },
+    "backdrop": {
+      "background": "#08080a83",
+      "filter": "blur(6px)",
+      "purpose": "Dialog separation."
+    },
+    "provenance": {
+      "authority": [
+        "src/web/styles.css",
+        "src/web/main.tsx"
+      ],
+      "approvedIcon": "docs/design/tesslane-icon-variant-a.png",
+      "runtimeIcon": "public/tesslane.png",
+      "ramps": "Neutral ramps reuse implemented surfaces. Other ramps are derived OKLCH preview metadata, not CSS tokens.",
+      "snippets": "Translated actual component structure and distinctive CSS. Static sample text is illustrative; snippets do not claim runtime execution."
+    }
+  },
+  "components": [
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Compact neutral action used for analysis and supporting controls.",
+      "html": "<button class=\"ds-button\">Analyze feature</button>",
+      "css": ".ds-button{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:13px;line-height:1.3;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line, #343437);border-radius:6px;padding:7px 11px;background:var(--surface-raised, #2e2e31);color:var(--text, #ecebed);cursor:pointer;transition:background .16s,border-color .16s;white-space:nowrap;}.ds-button:hover{background:var(--surface-hover, #343437);border-color:var(--line-strong, #62616a)}.ds-button:active{filter:brightness(.94)}.ds-button:disabled{opacity:.4;cursor:default}.ds-button:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}"
+    },
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Silver primary action used to create or run a feature.",
+      "html": "<button class=\"ds-button ds-primary\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>New feature</button>",
+      "css": ".ds-button{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:13px;line-height:1.3;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line, #343437);border-radius:6px;padding:7px 11px;background:var(--surface-raised, #2e2e31);color:var(--text, #ecebed);cursor:pointer;transition:background .16s,border-color .16s;white-space:nowrap;}.ds-button:hover{background:var(--surface-hover, #343437);border-color:var(--line-strong, #62616a)}.ds-button:active{filter:brightness(.94)}.ds-button:disabled{opacity:.4;cursor:default}.ds-button:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}.ds-button.ds-primary{background:#dedde0;color:#28272b;border-color:#ecebef;box-shadow:inset 0 1px #fff9,0 1px 3px #0002;font-weight:600;font-size:11px}.ds-button.ds-primary:hover{background:#f0eff1}"
+    },
+    {
+      "name": "Icon action",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Labeled icon action with a quiet hover surface.",
+      "html": "<button class=\"ds-icon-button\" title=\"New feature\" aria-label=\"New feature\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button>",
+      "css": ".ds-icon-button{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:13px;line-height:1.3;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line, #343437);border-radius:6px;padding:7px 11px;background:var(--surface-raised, #2e2e31);color:var(--text, #ecebed);cursor:pointer;transition:background .16s,border-color .16s;white-space:nowrap;border:0;background:transparent;padding:6px;color:var(--muted, #a4a3aa);border-radius:5px}.ds-icon-button:hover{background:var(--surface-hover, #343437);color:var(--text, #ecebed)}.ds-icon-button:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}.ds-icon-button:active{filter:brightness(.94)}"
+    },
+    {
+      "name": "Feature search",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Search container owns the visible keyboard-focus outline.",
+      "html": "<label class=\"ds-search\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.35-4.35\"/></svg><input aria-label=\"Find a feature\" placeholder=\"Find a feature…\"/><kbd>⌘ K</kbd></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:6px;padding:7px 8px;border:1px solid var(--line, #343437);background:var(--bg, #1b1b1d);border-radius:6px;color:var(--faint, #96939c);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif}.ds-search input{min-width:0;width:100%;border:0;padding:0;background:transparent;color:var(--text, #ecebed);font:inherit;font-size:11px;outline:none}.ds-search input::placeholder{color:var(--faint, #96939c)}.ds-search kbd{font-family:SFMono-Regular,Consolas,monospace;font-size:9px;white-space:nowrap}.ds-search:focus-within{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}"
+    },
+    {
+      "name": "Feature navigation",
+      "kind": "nav",
+      "refersTo": "navigation-feature-selected",
+      "description": "Gray selection and multiline labels in feature navigation.",
+      "html": "<nav class=\"ds-feature-nav\" aria-label=\"Features\"><button class=\"ds-feature-link ds-selected\" aria-current=\"page\"><span class=\"ds-feature-dot\"></span><span>Local workspace setup</span></button><button class=\"ds-feature-link\"><span class=\"ds-feature-dot\"></span><span>Review execution evidence</span></button></nav>",
+      "css": ".ds-feature-nav{display:flex;flex-direction:column;gap:3px}.ds-feature-link{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:13px;line-height:1.3;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line, #343437);border-radius:6px;padding:7px 11px;background:var(--surface-raised, #2e2e31);color:var(--text, #ecebed);cursor:pointer;transition:background .16s,border-color .16s;white-space:nowrap;border:0;background:transparent;justify-content:flex-start;gap:8px;padding:10px 9px;font-size:11px;white-space:normal;text-align:left;color:var(--muted, #a4a3aa)}.ds-feature-link>span:nth-child(2){flex:1;line-height:1.4}.ds-feature-link.ds-selected{color:var(--text, #ecebed);background:var(--selection, #3b3b3e)}.ds-feature-link:hover{background:var(--surface-hover, #343437)}.ds-feature-link:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}.ds-feature-link:active{filter:brightness(.94)}.ds-feature-dot{width:6px;height:6px;border:1.5px solid var(--faint, #96939c);border-radius:50%;flex-shrink:0}"
+    },
+    {
+      "name": "Execution status",
+      "kind": "chip",
+      "refersTo": "status-running",
+      "description": "Unboxed status combines readable text and a semantic dot.",
+      "html": "<span class=\"ds-status\"><span></span>Running</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:6px;color:var(--green, #91b9a1);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:10px;white-space:nowrap}.ds-status>span{width:5px;height:5px;background:var(--green, #91b9a1);border-radius:50%;box-shadow:0 0 0 3px #91b9a110}"
+    },
+    {
+      "name": "Summary surface",
+      "kind": "card",
+      "refersTo": "card-summary",
+      "description": "Summary container with a restrained border and local shadow.",
+      "html": "<section class=\"ds-summary\"><h2>Local workspace setup</h2><p>Inspect the delivery plan and recorded evidence.</p><div class=\"ds-progress\" role=\"progressbar\" aria-label=\"Integrated tickets\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"50\"><span></span></div></section>",
+      "css": ".ds-summary{padding:22px;background:var(--surface, #272729);color:var(--text, #ecebed);border:1px solid #ffffff07;border-radius:10px;box-shadow:0 1px 2px #0002;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif}.ds-summary h2{font-size:19px;font-weight:600;letter-spacing:-.4px;margin:20px 0 10px}.ds-summary p{font-size:12px;line-height:1.65;color:var(--muted, #a4a3aa);max-width:65ch;margin:0 0 24px}.ds-progress{height:4px;background:var(--surface-hover, #343437);border-radius:4px;overflow:hidden}.ds-progress>span{display:block;width:50%;height:100%;background:var(--green, #91b9a1);border-radius:4px;transition:width .2s}"
+    },
+    {
+      "name": "Agent graph node",
+      "kind": "custom",
+      "refersTo": "graph-node",
+      "description": "Unit-scale inspection node with role avatar and two-line title.",
+      "html": "<div class=\"ds-graph-node\" role=\"button\" tabindex=\"0\" aria-label=\"Workspace implementer, Working\"><div class=\"ds-node-top\"><span class=\"ds-avatar\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 8V4H8M2 14h2m16 0h2\"/><rect x=\"4\" y=\"8\" width=\"16\" height=\"12\" rx=\"2\"/><path d=\"M9 13v2m6-2v2\"/></svg></span><span><strong>Workspace implementer</strong><small>Local coding agent</small></span></div><span class=\"ds-status\"><span></span>Working</span></div>",
+      "css": ".ds-graph-node{background:var(--surface, #272729);width:205px;border:1px solid #64616855;border-radius:9px;padding:14px;box-shadow:0 3px 8px #0002;color:var(--text, #ecebed);cursor:pointer;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif}.ds-graph-node:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}.ds-node-top{display:flex;gap:9px;align-items:center;margin-bottom:15px}.ds-node-top>span:nth-child(2){min-width:0;flex:1}.ds-graph-node strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:13px;line-height:1.4;font-weight:550}.ds-graph-node small{display:block;font-size:10px;color:var(--muted, #a4a3aa);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ds-avatar{display:flex;align-items:center;justify-content:center;width:31px;height:31px;border-radius:7px;flex-shrink:0;background:#81bba218;color:var(--green, #91b9a1)}.ds-status{display:inline-flex;align-items:center;gap:6px;color:var(--green, #91b9a1);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:10px;white-space:nowrap}.ds-status>span{width:5px;height:5px;background:var(--green, #91b9a1);border-radius:50%;box-shadow:0 0 0 3px #91b9a110}.ds-graph-node .ds-status{font-size:11px}"
+    },
+    {
+      "name": "Form field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Labeled neutral field used in feature and settings dialogs.",
+      "html": "<label class=\"ds-field\">Feature title<input value=\"Local workspace setup\"/></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:11px;color:var(--muted, #a4a3aa);margin-bottom:17px}.ds-field input{border:1px solid var(--line, #343437);border-radius:5px;background:var(--bg, #1b1b1d);padding:9px 10px;color:var(--text, #ecebed);min-width:0;width:100%;font:inherit;font-size:12px;line-height:1.5}.ds-field input:focus-visible{outline:2px solid var(--blue, #9bb7d4);outline-offset:3px;}.ds-field input::placeholder{color:var(--faint, #96939c)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Local Workspace",
+    "overview": "Tesslane takes its material cues from Superwhisper’s actual macOS application: professional, reassuring, effective and clean. Charcoal tonal panes, compact controls, quiet gray selection and restrained color make execution easy to inspect. The native system type stack follows the developer’s operating system.\n\nThe approved icon is the visual signature: satin silver sculptural relief on a dark rounded tile. Preserve `docs/design/tesslane-icon-variant-a.png`, used unmodified at `public/tesslane.png`. Small navigation symbols and silver primary buttons echo its modest relief; the work surfaces remain calm.",
+    "keyCharacteristics": [
+      "Neutral tonal panes in dark and light themes.",
+      "Compact native-feeling controls and system typography.",
+      "Text-labeled execution states with restrained semantic color.",
+      "Desktop panes that adapt to narrower laptop widths."
+    ],
+    "rules": [
+      {
+        "name": "Theme Pairing",
+        "body": "Resolve each semantic color through its CSS custom property; the light-prefixed documentation tokens describe the matching light-theme override, not a second accent palette.",
+        "section": "colors"
+      },
+      {
+        "name": "Work-Surface Legibility",
+        "body": "Keep graph titles readable at the initial unit zoom; wrap the layout and route assignment edges outside parent nodes rather than shrinking the graph to fit.",
+        "section": "typography"
+      },
+      {
+        "name": "Quiet Relief",
+        "body": "Use tonal separation and hairlines for panes; reserve noticeable relief for the approved icon, small controls and modal elevation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use the semantic CSS variables for both required themes.",
+      "Do keep visible blue keyboard focus, including the search container’s focus-within outline.",
+      "Do keep execution status text beside its colored dot.",
+      "Do preserve the approved icon without recoloring, redrawing or cropping its relief.",
+      "Do test normal desktop and narrower laptop layouts with the conversation panel open.",
+      "Do keep graph labels at their readable initial size and allow wrapped layouts."
+    ],
+    "donts": [
+      "Don’t turn the workspace into an infrastructure-dashboard aesthetic.",
+      "Don’t use saturated color as the main pane background or primary action fill.",
+      "Don’t add decorative captions above page titles.",
+      "Don’t imply connected engines or completed checks through ornamental status indicators.",
+      "Don’t promote the existing small-width CSS fallbacks into a mobile product commitment."
+    ]
+  }
+}

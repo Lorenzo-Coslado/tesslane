@@ -1,0 +1,66 @@
+{
+  "at": "2026-11-07T12:26:49.899Z",
+  "platform": "darwin",
+  "passed": true,
+  "account": "chatgpt",
+  "configuredModel": "gpt-6.1-sol",
+  "agents": [
+    {
+      "role": "coordinator",
+      "state": "completed",
+      "requestedModel": "gpt-6.1-sol",
+      "configuredModel": "gpt-6.1-sol"
+    },
+    {
+      "role": "coordinator",
+      "state": "completed",
+      "requestedModel": "gpt-6.1-sol"
+    },
+    {
+      "role": "implementer",
+      "state": "completed",
+      "requestedModel": "gpt-6.1-sol",
+      "configuredModel": "gpt-6.1-sol"
+    },
+    {
+      "role": "reviewer",
+      "state": "completed",
+      "requestedModel": "gpt-6.1-sol",
+      "configuredModel": "gpt-6.1-sol"
+    },
+    {
+      "role": "reviewer",
+      "state": "completed",
+      "requestedModel": "gpt-6.1-sol",
+      "configuredModel": "gpt-6.1-sol"
+    }
+  ],
+  "checks": [
+    {
+      "state": "passed",
+      "revision": "409b7660efb7c938eb311fac3ce29a606f68578a"
+    },
+    {
+      "state": "passed",
+      "revision": "98dcb21a0ae4667d43eb26b9e8e03e52c97495eb"
+    }
+  ],
+  "operations": [
+    {
+      "kind": "worktree",
+      "state": "completed"
+    },
+    {
+      "kind": "worktree",
+      "state": "completed"
+    },
+    {
+      "kind": "commit",
+      "state": "completed"
+    },
+    {
+      "kind": "merge",
+      "state": "completed"
+    }
+  ]
+}
