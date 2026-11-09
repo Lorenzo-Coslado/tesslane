@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tesslane",
   "version": "0.1.0",
-  "description": "Open-source, local-first AI coding agent dashboard for Codex and Claude Code. Coordinate multiple agents with Git worktrees, approvals and independent reviews.",
+  "description": "Open-source, local-first AI coding swarm dashboard for Codex and Claude Code. Multi-agent orchestration with Git worktrees, approvals and independent reviews.",
   "author": {
     "name": "Lorenzo Coslado",
     "url": "https://github.com/Lorenzo-Coslado"
@@ -11,6 +11,9 @@
   "repository": "https://github.com/Lorenzo-Coslado/tesslane",
   "license": "MIT",
   "keywords": [
+    "swarm",
+    "agent-swarm",
+    "ai-swarm",
     "ai-agents",
     "ai-coding",
     "agent-orchestration",
@@ -22,8 +25,7 @@
     "git-worktrees",
     "local-first",
     "developer-tools",
-    "dashboard",
-    "swarm"
+    "dashboard"
   ],
   "extensions": {
     "com.openai": {

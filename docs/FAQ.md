@@ -2,11 +2,15 @@
 
 ## What is Tesslane?
 
-Tesslane is an open source, local-first AI coding agent dashboard for Codex and Claude Code. It coordinates feature planning, dependent delivery tickets, agent execution, approvals, Git worktrees, verification and independent reviews in one project workspace. The canonical repository is [Lorenzo-Coslado/tesslane](https://github.com/Lorenzo-Coslado/tesslane).
+Tesslane is an open source, local-first AI coding swarm dashboard for Codex and Claude Code. It coordinates feature planning, dependent delivery tickets, agent execution, approvals, Git worktrees, verification and independent reviews in one project workspace. The canonical repository is [Lorenzo-Coslado/tesslane](https://github.com/Lorenzo-Coslado/tesslane).
 
 Tesslane is the project's name; **Swarm Dashboard** describes its function. The current application is in `src/web/`. See the [overview](../README.md) and [architecture](ARCHITECTURE.md).
 
-## How does Tesslane orchestrate multiple coding agents?
+## What does Swarm mean in Tesslane?
+
+A coding swarm is a coordinated group of agents with scoped missions, such as implementation and independent review. Tesslane's local engine schedules their tickets, respects dependencies and applies the configured execution policy. The Swarm Dashboard shows agent hierarchy, dependencies and recorded interactions alongside approvals, checks and Git evidence.
+
+## How does Tesslane orchestrate a coding swarm?
 
 A feature becomes a revisioned plan with scoped tickets and dependencies. The local engine schedules eligible work using the selected native coding engines and per-role model settings. Writing missions use Git worktrees; authorized checks and independent reviews produce evidence tied to the integration commit. The original source branch is preserved, and the delivery report provides an explicit handoff.
 

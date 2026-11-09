@@ -2,11 +2,11 @@
 
 <img src="public/tesslane.png" width="88" height="88" alt="Tesslane silver crossing icon">
 
-# Tesslane — local AI coding agent dashboard
+# Tesslane — AI Coding Swarm Dashboard
 
 **Your coding swarm. One local workspace.**
 
-Tesslane is an **open source, local-first AI coding agent dashboard** for **Codex** and **Claude Code**.<br>
+Tesslane is an **open source, local-first AI coding swarm dashboard** for **Codex** and **Claude Code**.<br>
 Plan features, coordinate agents in Git worktrees, and review changes from one workspace.
 
 [![Check](https://github.com/Lorenzo-Coslado/tesslane/actions/workflows/check.yml/badge.svg)](https://github.com/Lorenzo-Coslado/tesslane/actions/workflows/check.yml)
@@ -27,7 +27,7 @@ Plan features, coordinate agents in Git worktrees, and review changes from one w
 
 Working with several coding agents creates a second job: tracking plans, questions, branches, checks and handoffs. Tesslane brings that work into one project workspace, with a visible path from a feature idea to a reviewed Git result.
 
-Use Tesslane for local multi-agent coding workflows: break a feature into dependent tickets, coordinate Codex and Claude Code agents, approve execution, and inspect the resulting checks, reviews and Git commits. The dashboard keeps planning and human review connected to the code being changed.
+Use Tesslane to coordinate a coding swarm: break a feature into dependent tickets, assign scoped work to Codex and Claude Code agents, approve execution, and inspect the resulting checks, reviews and Git commits. The Swarm Dashboard keeps planning and human review connected to the code being changed.
 
 | You need to…                   | Tesslane gives you…                                                                                                |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |

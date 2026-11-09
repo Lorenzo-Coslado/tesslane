@@ -3,7 +3,7 @@ type: software
 message: >-
   If you reference Tesslane, use this software citation and identify the
   release or commit you used.
-title: 'Tesslane: Local AI coding agent dashboard'
+title: 'Tesslane: AI Coding Swarm Dashboard'
 authors:
   - family-names: 'Coslado'
     given-names: 'Lorenzo'
@@ -14,11 +14,14 @@ license: MIT
 repository-code: 'https://github.com/Lorenzo-Coslado/tesslane'
 url: 'https://github.com/Lorenzo-Coslado/tesslane/releases/tag/v0.1.0'
 abstract: >-
-  Tesslane is an open source, local-first AI coding agent dashboard for
+  Tesslane is an open source, local-first AI coding swarm dashboard for
   Codex and Claude Code. It coordinates feature planning, dependent tickets,
   approvals, native agent execution, Git worktrees, authorized checks and
   independent reviews, with durable local state and delivery evidence.
 keywords:
+  - swarm
+  - agent-swarm
+  - ai-swarm
   - ai-coding
   - ai-agents
   - multi-agent
