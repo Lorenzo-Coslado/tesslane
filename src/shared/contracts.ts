@@ -319,7 +319,7 @@ export interface Message {
   delivery?: z.infer<typeof Delivery>;
   deliveryDetail?: string;
   deliveredAt?: string;
-  mode?: 'discuss' | 'steer' | 'command';
+  mode?: 'discuss' | 'clarify' | 'steer' | 'command';
   requestId?: string;
   truncated?: boolean;
   updatedAt?: string;
@@ -481,7 +481,7 @@ export const ChatInput = z.object({
   featureId: z.string().min(1),
   targetId: z.string().min(1),
   content: z.string().trim().min(1).max(50000),
-  mode: z.enum(['discuss', 'steer', 'command']).default('discuss'),
+  mode: z.enum(['discuss', 'clarify', 'steer', 'command']).default('discuss'),
   requestId: z.string().uuid().optional(),
 });
 export const ChatOutput = z.object({

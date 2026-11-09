@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Feature, Preparation, Settings, Ticket } from '../shared/contracts.ts';
 import { api } from './api.ts';
 const lines = (text: string) =>
@@ -20,6 +20,10 @@ export function LineField({
   rows?: number;
 }) {
   const [text, setText] = useState(value.join('\n'));
+  const normalized = value.join('\n');
+  useEffect(() => {
+    if (lines(text).join('\n') !== normalized) setText(normalized);
+  }, [normalized]);
   return (
     <label className="field">
       {label}

@@ -1,0 +1,7 @@
+interface:
+  display_name: 'Tesslane'
+  short_description: 'Plan, run and review a local coding swarm'
+  icon_small: './assets/tesslane.png'
+  icon_large: './assets/tesslane.png'
+  brand_color: '#AFA8CB'
+  default_prompt: 'Use $tesslane to open the local swarm dashboard for this project.'

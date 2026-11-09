@@ -838,7 +838,7 @@ export class Orchestrator {
     featureId: string,
     targetId: string,
     content: string,
-    mode: 'discuss' | 'steer' | 'command' = 'discuss',
+    mode: 'discuss' | 'clarify' | 'steer' | 'command' = 'discuss',
     requestId: string = id(),
   ) {
     ChatInput.parse({ featureId, targetId, content, mode, requestId });
@@ -853,6 +853,8 @@ export class Orchestrator {
         throw new Error('Request identifier was reused for a different message.');
       return { message: prior, replayed: true };
     }
+    if (mode === 'clarify' && (targetId !== f.id || f.status !== 'clarifying'))
+      throw new Error('Clarification answers require a feature waiting for answers.');
     const message = this.store.save('message', {
       id: requestId,
       requestId,
@@ -872,6 +874,15 @@ export class Orchestrator {
         deliveryDetail: 'Sample workspace does not execute commands or model calls.',
       });
       throw new Error('Launch a real workspace to send messages.');
+    }
+    if (mode === 'clarify') {
+      const saved = this.store.save('message', {
+        ...message,
+        delivery: 'accepted',
+        deliveryDetail: 'Clarification recorded. Analyze again when your answers are complete.',
+        deliveredAt: now(),
+      });
+      return { message: saved };
     }
     if (mode === 'steer') {
       if (
@@ -989,14 +1000,6 @@ export class Orchestrator {
       }
       return { message: this.store.get('message', message.id) };
     }
-    if (targetId === f.id && f.status === 'clarifying') {
-      this.store.save('message', {
-        ...message,
-        delivery: 'accepted',
-        deliveryDetail: 'Clarification recorded. Analyze again when your answers are complete.',
-      });
-      return { queued: true };
-    }
     const live = this.newRun(f, 'chat');
     live.run = { ...live.run, targetId };
     this.store.save('run', live.run);
@@ -1022,7 +1025,7 @@ export class Orchestrator {
         'analyst',
         'balanced',
         this.root,
-        'Discuss this project read-only and return JSON matching the schema. Offer up to four concrete actions when the user asks to operate the swarm. Actions are proposals requiring an explicit user click, never executions here. Use only real feature/ticket identifiers from the supplied catalog. create_feature targets project and includes title/description; other actions have data:null. Explain approvals and scope. Conversation recipient: ' +
+        'Discuss this project read-only and return JSON matching the schema. Respond to the user even when the feature has unanswered clarification questions. When asked to split a feature, explain the separate scopes and propose a create_feature action for each requested outcome. Offer up to four concrete actions when the user asks to operate the swarm. Actions are proposals requiring an explicit user click, never executions here. Use only real feature/ticket identifiers from the supplied catalog. create_feature targets project and includes title/description; other actions have data:null. Explain approvals and scope. Conversation recipient: ' +
           targetId +
           '\nFeature: ' +
           JSON.stringify(f) +

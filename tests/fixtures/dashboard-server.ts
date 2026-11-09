@@ -11,7 +11,12 @@ const f = await fixture();
 f.store.setMeta('configured', true);
 const regular = fakeAdapter();
 let guided = false;
+let failUxPlan = process.argv.includes('--ux-fail');
 const adapter = fakeAdapter(async (m) => {
+  if (failUxPlan && m.readOnly && m.prompt.includes('Make search feel native')) {
+    failUxPlan = false;
+    throw new Error('Simulated analysis failure. Your saved decisions are preserved.');
+  }
   if (m.readOnly || process.argv.includes('--delivery')) return regular.run(m);
   m.emit({
     type: 'session',
@@ -137,6 +142,46 @@ if (process.argv.includes('--delivery')) {
   await until(() => !app.active);
   if (f.store.get('feature', delivery.id)?.status !== 'integrated')
     throw new Error(f.store.get('feature', delivery.id)?.error);
+}
+if (process.argv.includes('--ux')) {
+  const clarifying = app.create({
+    title: 'Make search feel native, with clear answers and keyboard navigation',
+    description:
+      'Simulated provider · UI verification only.\n\nClarify the search experience before reviewing the delivery plan.',
+  });
+  f.store.save('feature', {
+    ...clarifying,
+    status: 'clarifying',
+    planRevision: 1,
+    questions: [
+      {
+        id: 'scope',
+        question: 'Where should search look for results?',
+        recommendation: 'Search feature titles and ticket descriptions in this workspace.',
+      },
+      {
+        id: 'keyboard',
+        question: 'How should people move between results with the keyboard?',
+        recommendation:
+          'Use the arrow keys to select a result and Enter to open it. Escape returns to the previous view.',
+      },
+      {
+        id: 'drafts',
+        question: 'Should unfinished answers stay available when changing features?',
+        recommendation: 'Keep a separate draft for each feature and plan revision on this device.',
+      },
+    ],
+  });
+  const blocked = app.create({
+    title: 'Check an interrupted analysis',
+    description:
+      'Simulated provider · a failed analysis with no tickets. Execution must not be offered.',
+  });
+  f.store.save('feature', {
+    ...blocked,
+    status: 'blocked',
+    error: 'The sample analysis was interrupted. Retry analysis to prepare a plan.',
+  });
 }
 const http = await startHttp(app, { port: 0, webDir: 'dist/web' });
 console.log(JSON.stringify({ url: http.url, root: f.root, data: f.data }));

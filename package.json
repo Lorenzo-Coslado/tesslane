@@ -1,6 +1,24 @@
 {
   "name": "tesslane",
   "version": "0.1.0",
+  "description": "A local swarm dashboard for planning, orchestrating and reviewing coding agents.",
+  "author": "Lorenzo Coslado",
+  "homepage": "https://github.com/Lorenzo-Coslado/tesslane#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lorenzo-Coslado/tesslane.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lorenzo-Coslado/tesslane/issues"
+  },
+  "keywords": [
+    "agent-skills",
+    "swarm",
+    "codex",
+    "claude-code",
+    "local-first",
+    "dashboard"
+  ],
   "private": true,
   "type": "module",
   "engines": {

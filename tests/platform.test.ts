@@ -4,7 +4,45 @@ import { mkdtemp, mkdir, writeFile, rm, readFile, realpath } from 'node:fs/promi
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { once } from 'node:events';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { programFor, resolveCli, ProcessOwner } from '../src/server/processes.ts';
+
+test('skill installation retains launch provenance and UI assets in a destination with spaces', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'tesslane skill install-'));
+  try {
+    const installer = fileURLToPath(new URL('../scripts/install-skill.mjs', import.meta.url));
+    const destination = join(dir, 'custom skills', 'tesslane');
+    for (const tool of ['codex', 'claude']) {
+      const result = spawnSync(process.execPath, [installer, tool, '--target', destination], {
+        encoding: 'utf8',
+      });
+      assert.equal(result.status, 0, result.stderr);
+      const installation = JSON.parse(
+        await readFile(join(destination, 'installation.json'), 'utf8'),
+      );
+      assert.equal(
+        await realpath(installation.repository),
+        await realpath(join(installer, '../..')),
+      );
+      assert.ok((await readFile(join(destination, 'SKILL.md'), 'utf8')).includes('name: tesslane'));
+      assert.ok(
+        (await readFile(join(destination, 'agents/openai.yaml'), 'utf8')).includes('$tesslane'),
+      );
+      assert.deepEqual(
+        await readFile(join(destination, 'assets/tesslane.png')),
+        await readFile(join(installation.repository, 'skills/tesslane/assets/tesslane.png')),
+      );
+    }
+    const invalid = spawnSync(process.execPath, [installer, 'codex', '--target'], {
+      encoding: 'utf8',
+    });
+    assert.notEqual(invalid.status, 0);
+    assert.match(invalid.stderr, /requires a destination/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
 
 test('CLI resolution uses verified package entrypoints instead of executing Windows shell shims', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'tesslane path & spaces-'));

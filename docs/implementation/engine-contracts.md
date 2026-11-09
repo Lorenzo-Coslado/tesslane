@@ -1,6 +1,6 @@
 # Engine integration contracts
 
-Verified 2026-11-07, without running inference or reading credential files. Installed binaries: `/Users/lorenzo/.local/bin/codex` (`codex-cli 0.164.0`) and `/Users/lorenzo/.local/bin/claude` (`2.1.312`). These are verification versions, not hardcoded user installation paths.
+Verified 2026-11-07, without running inference or reading credential files. Installed binaries: `codex` on PATH (`codex-cli 0.164.0`) and `claude` on PATH (`2.1.312`). These are verification versions, not hardcoded user installation paths.
 
 ## Recommended integration boundary
 

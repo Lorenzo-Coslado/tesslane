@@ -1,11 +1,13 @@
 ---
 name: tesslane
-description: Open a local Tesslane dashboard for the current project to clarify features, orchestrate Codex and Claude Code agents, and inspect execution, verification, and Git worktrees.
+description: Open Tesslane's local swarm dashboard when the user wants to plan features, orchestrate Codex or Claude Code agents, or inspect their execution, reviews and Git worktrees.
+license: MIT
+compatibility: Requires a full Tesslane checkout, Git, a native Codex or Claude Code CLI, and Bash or PowerShell. First preparation needs network access; Node.js 24 or newer is reused or downloaded privately.
 ---
 
 Launch Tesslane for the user's current project. The dashboard owns execution policies, durable state, and agent scheduling.
 
-Locate this skill's installation.json and read its repository path. If invoked from the source repository instead, use the repository containing scripts/start.sh. Resolve the user's target project to an absolute path; it is usually the active workspace, not Tesslane's source checkout.
+Locate this skill's installation.json and read its repository path. When running from a full source or plugin checkout without that file, resolve ../.. relative to this SKILL.md and confirm it contains scripts/start.sh and package.json. If the checkout is unavailable, explain that the full repository must be cloned and its scripts/install.sh or scripts/install.ps1 run; a copied SKILL.md alone does not include the application. Resolve the user's target project to an absolute path; it is usually the active workspace, not Tesslane's source checkout.
 
 Run the repository's scripts/start.sh with the project path on macOS or Linux; on Windows run scripts/start.ps1 with -Project. Quote paths as shell arguments. The first launch reuses a compatible Node.js or prepares a private checksum-verified runtime from nodejs.org, installs locked dependencies and builds the dashboard. It leaves the system runtime untouched. The script starts a detached local engine and opens the dashboard; repeated launches reuse it.
 

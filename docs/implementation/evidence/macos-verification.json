@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-07T13:59:09.108Z",
+  "at": "2026-11-09T01:24:22.609Z",
   "platform": "darwin",
   "arch": "arm64",
   "node": "v26.13.0",
@@ -9,27 +9,27 @@
     {
       "name": "types",
       "passed": true,
-      "durationMs": 459
+      "durationMs": 538
     },
     {
       "name": "format",
       "passed": true,
-      "durationMs": 819
+      "durationMs": 1227
     },
     {
       "name": "behavior",
       "passed": true,
-      "durationMs": 6808
+      "durationMs": 10491
     },
     {
       "name": "build",
       "passed": true,
-      "durationMs": 551
+      "durationMs": 711
     },
     {
       "name": "compiled-launch",
       "passed": true,
-      "durationMs": 1433
+      "durationMs": 887
     }
   ]
 }

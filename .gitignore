@@ -6,3 +6,13 @@ coverage/
 artifacts/
 *.log
 .DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.tesslane/
+.impeccable/review/

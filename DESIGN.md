@@ -1,159 +1,159 @@
 ---
-name: "Tesslane"
-description: "A calm local workspace for understandable, verifiable coding-agent execution."
+name: 'Tesslane'
+description: 'A calm local workspace for understandable, verifiable coding-agent execution.'
 colors:
-  bg: "#1b1b1d"
-  rail: "#222224"
-  sidebar: "#242426"
-  surface: "#272729"
-  surface-raised: "#2e2e31"
-  surface-hover: "#343437"
-  selection: "#3b3b3e"
-  text: "#ecebed"
-  muted: "#a4a3aa"
-  faint: "#96939c"
-  line: "#343437"
-  line-strong: "#62616a"
-  graph-dot: "#3b3b3f"
-  green: "#91b9a1"
-  amber: "#d8bb89"
-  violet: "#b6a4d5"
-  blue: "#9bb7d4"
-  red: "#e0a6a6"
-  light-bg: "#f7f6f5"
-  light-rail: "#eae9e7"
-  light-sidebar: "#efeeed"
-  light-surface: "#fff"
-  light-surface-raised: "#f4f3f2"
-  light-surface-hover: "#e7e5e4"
-  light-selection: "#dddbda"
-  light-text: "#29282c"
-  light-muted: "#65616b"
-  light-faint: "#77727c"
-  light-line: "#dfdddc"
-  light-line-strong: "#a6a0ac"
-  light-graph-dot: "#dbd8dd"
-  light-green: "#46775c"
-  light-amber: "#856a37"
-  light-violet: "#7a609d"
-  light-blue: "#536f93"
-  light-red: "#a84747"
-  silver-button: "#dedde0"
-  silver-button-text: "#28272b"
-  silver-button-border: "#ecebef"
-  silver-button-hover: "#f0eff1"
-  nav-violet: "#8974a7"
-  nav-amber: "#b89056"
-  nav-green: "#6e9a82"
-  nav-blue: "#7090ac"
+  bg: '#1b1b1d'
+  rail: '#222224'
+  sidebar: '#242426'
+  surface: '#272729'
+  surface-raised: '#2e2e31'
+  surface-hover: '#343437'
+  selection: '#3b3b3e'
+  text: '#ecebed'
+  muted: '#aaa9b0'
+  faint: '#a7a4ad'
+  line: '#343437'
+  line-strong: '#62616a'
+  graph-dot: '#3b3b3f'
+  green: '#91b9a1'
+  amber: '#d8bb89'
+  violet: '#b6a4d5'
+  blue: '#9bb7d4'
+  red: '#e0a6a6'
+  light-bg: '#f7f6f5'
+  light-rail: '#eae9e7'
+  light-sidebar: '#efeeed'
+  light-surface: '#fff'
+  light-surface-raised: '#f4f3f2'
+  light-surface-hover: '#e7e5e4'
+  light-selection: '#dddbda'
+  light-text: '#29282c'
+  light-muted: '#615d67'
+  light-faint: '#69646e'
+  light-line: '#dfdddc'
+  light-line-strong: '#a6a0ac'
+  light-graph-dot: '#dbd8dd'
+  light-green: '#46775c'
+  light-amber: '#856a37'
+  light-violet: '#7a609d'
+  light-blue: '#536f93'
+  light-red: '#a84747'
+  silver-button: '#dedde0'
+  silver-button-text: '#28272b'
+  silver-button-border: '#ecebef'
+  silver-button-hover: '#f0eff1'
+  nav-violet: '#8974a7'
+  nav-amber: '#b89056'
+  nav-green: '#6e9a82'
+  nav-blue: '#7090ac'
 typography:
   page-title:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "25px"
+    fontSize: '25px'
     fontWeight: 650
     lineHeight: 1.2
-    letterSpacing: "-0.7px"
+    letterSpacing: '-0.7px'
   section-title:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "19px"
+    fontSize: '19px'
     fontWeight: 600
-    letterSpacing: "-0.4px"
+    letterSpacing: '-0.4px'
   panel-title:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "14px"
+    fontSize: '14px'
     fontWeight: 600
-    letterSpacing: "-0.1px"
+    letterSpacing: '-0.1px'
   body:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "13px"
+    fontSize: '14px'
     lineHeight: 1.65
   description:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "12px"
+    fontSize: '12px'
     lineHeight: 1.65
   label:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "11px"
+    fontSize: '11px'
   status:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-    fontSize: "10px"
+    fontSize: '10px'
   code:
     fontFamily: "'SFMono-Regular', Consolas, monospace"
-    fontSize: "11px"
+    fontSize: '11px'
     lineHeight: 1.6
 rounded:
-  field: "5px"
-  control: "6px"
-  symbol: "7px"
-  navigation: "8px"
-  node: "9px"
-  summary: "10px"
-  dialog: "14px"
-  round: "50%"
+  field: '5px'
+  control: '6px'
+  symbol: '7px'
+  navigation: '8px'
+  node: '9px'
+  summary: '10px'
+  dialog: '14px'
+  round: '50%'
 spacing:
-  icon-gap: "7px"
-  compact: "8px"
-  control-gap: "10px"
-  inset: "14px"
-  panel-inset: "18px"
-  card-inset: "22px"
-  laptop-gutter: "24px"
-  section-gap: "30px"
-  desktop-gutter: "32px"
+  icon-gap: '7px'
+  compact: '8px'
+  control-gap: '10px'
+  inset: '14px'
+  panel-inset: '18px'
+  card-inset: '22px'
+  laptop-gutter: '24px'
+  section-gap: '30px'
+  desktop-gutter: '32px'
 components:
   button-secondary:
-    backgroundColor: "{colors.surface-raised}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.control}"
-    padding: "7px 11px"
+    backgroundColor: '{colors.surface-raised}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.control}'
+    padding: '7px 11px'
   button-secondary-hover:
-    backgroundColor: "{colors.surface-hover}"
+    backgroundColor: '{colors.surface-hover}'
   button-primary:
-    backgroundColor: "{colors.silver-button}"
-    textColor: "{colors.silver-button-text}"
-    rounded: "{rounded.control}"
-    padding: "7px 11px"
+    backgroundColor: '{colors.silver-button}'
+    textColor: '{colors.silver-button-text}'
+    rounded: '{rounded.control}'
+    padding: '7px 11px'
   button-primary-hover:
-    backgroundColor: "{colors.silver-button-hover}"
+    backgroundColor: '{colors.silver-button-hover}'
   button-icon:
-    textColor: "{colors.muted}"
-    rounded: "{rounded.field}"
-    padding: "6px"
+    textColor: '{colors.muted}'
+    rounded: '{rounded.field}'
+    padding: '6px'
   input-search:
-    backgroundColor: "{colors.bg}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.control}"
-    padding: "7px 8px"
+    backgroundColor: '{colors.bg}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.control}'
+    padding: '7px 8px'
   navigation-feature-selected:
-    backgroundColor: "{colors.selection}"
-    textColor: "{colors.text}"
-    typography: "{typography.label}"
-    rounded: "{rounded.control}"
-    padding: "10px 9px"
+    backgroundColor: '{colors.selection}'
+    textColor: '{colors.text}'
+    typography: '{typography.label}'
+    rounded: '{rounded.control}'
+    padding: '10px 9px'
   status-running:
-    textColor: "{colors.green}"
-    typography: "{typography.status}"
+    textColor: '{colors.green}'
+    typography: '{typography.status}'
   card-summary:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.summary}"
-    padding: "22px"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.summary}'
+    padding: '22px'
   graph-node:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.node}"
-    padding: "14px"
-    width: "205px"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.node}'
+    padding: '14px'
+    width: '205px'
   input-field:
-    backgroundColor: "{colors.bg}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.field}"
-    padding: "9px 10px"
+    backgroundColor: '{colors.bg}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.field}'
+    padding: '9px 10px'
   dialog:
-    backgroundColor: "{colors.sidebar}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.dialog}"
-    width: "510px"
+    backgroundColor: '{colors.sidebar}'
+    textColor: '{colors.text}'
+    rounded: '{rounded.dialog}'
+    width: '510px'
 ---
 
 # Design System: Tesslane
@@ -173,7 +173,7 @@ The approved icon is the visual signature: satin silver sculptural relief on a d
 - Text-labeled execution states with restrained semantic color.
 - Desktop panes that adapt to narrower laptop widths.
 
-This is a record of the implemented system, not a redesign proposal. `src/web/styles.css` remains the implementation authority; `src/web/main.tsx` supplies the actual component structure and adaptive graph behavior. Token names preserve the CSS vocabulary; `light-` identifies an override from `:root[data-theme='light']`. The frontmatter is the normative token record for documentation consumers.
+This is a record of the implemented system. `src/web/styles.css` owns base tokens and existing components; `src/web/workspace-redesign.css` owns the task-first layout and refined controls. `src/web/main.tsx` and the focused workspace components supply the interaction structure. Token names preserve the CSS vocabulary; `light-` identifies an override from `:root[data-theme='light']`. The frontmatter is the normative token record for documentation consumers.
 
 ## Colors
 
@@ -187,7 +187,7 @@ Silver controls (`silver-button`, `silver-button-text`, `silver-button-border`, 
 
 Muted green (`green`) marks working, verification and completed states; amber (`amber`) marks blocked, paused and approval states; red (`red`) marks failed or interrupted work. Violet (`violet`) identifies coordinator roles and Git references, while blue (`blue`) supplies links and keyboard focus. Every status retains a text label. The `light-` counterparts carry the same roles in light mode.
 
-Small colored navigation tiles use the fixed `nav-violet`, `nav-amber`, `nav-green` and `nav-blue` fills. These tiles are a navigation device, not a palette for filling work surfaces.
+Primary navigation uses four authored, neutral SVG symbols with visible labels. Selection supplies contrast rather than a different color per destination. An amber count marks pending decisions. The older `nav-` colors remain historical component tokens; they do not fill the current primary navigation.
 
 ### Neutral
 
@@ -199,7 +199,7 @@ Small colored navigation tiles use the fixed `nav-violet`, `nav-amber`, `nav-gre
 
 **Body and interface font:** the platform system stack recorded in the frontmatter. **Code font:** SFMono-Regular with Consolas and monospace fallbacks. There is no separate marketing display face in the application.
 
-The type is compact and functional. Weight, a small size ramp and muted supporting text supply hierarchy; avoid turning routine workspace content into a display composition.
+The type is compact and functional. Operational writing uses 13–15px text, questions use 15px labels, settings inputs use 13px, and secondary control labels generally use 11–12px. Weight and a small size ramp supply hierarchy; avoid turning routine workspace content into a display composition. Muted and faint tokens were adjusted to retain readable contrast against selected and hovered neutral surfaces.
 
 ### Hierarchy
 
@@ -214,11 +214,11 @@ The type is compact and functional. Weight, a small size ramp and muted supporti
 
 ## Layout
 
-The viewport is a full-height, fixed shell with independently scrolling content. From left to right: a narrow primary rail, feature sidebar, flexible main pane and optional conversation/inspector pane. A top bar spans the workspace; hairlines define boundaries. Main content uses desktop gutters, with a single summary surface followed by flatter rows and sections rather than deeply nested cards.
+The viewport is a full-height, fixed shell with independently scrolling content. From left to right: a primary rail, feature sidebar, flexible main pane and optional conversation/inspector pane. A top bar spans the workspace; hairlines define boundaries. The opening view is **To do**: flat, actionable rows grouped into pending decisions, active work, upcoming plans and recent results. The conversation starts closed so the main task has room.
 
-At the default desktop size, the rail is 72px, the feature sidebar is 214px, the conversation is 330px, and the top bar is 57px. Main content gutters are 32px. The app shell has a 500px minimum height. The conversation can close, and a 3px separator supports pointer resizing or 20px keyboard steps. A user-set width overrides the CSS default; the range is 260–560px, with pointer resizing additionally capped at 45% of the viewport.
+At the default desktop size, the rail is 88px, the feature sidebar is 230px, the optional conversation is 370px, and the top bar is 57px. Main content gutters are 32px. The app shell has a 500px minimum height. A 3px separator supports pointer resizing or 20px keyboard steps. A user-set conversation width overrides the CSS default; the range is 260–560px, with pointer resizing additionally capped at 45% of the viewport.
 
-At widths up to 1270px the sidebar becomes 185px, conversation 290px and content gutters 24px. Up to 1050px these become 165px and 280px; the page header stacks, actions wrap, summary padding reduces from 22px to 17px, and the graph toolbar stacks. Lower-priority footer details yield space. At 1700px and above the sidebar becomes 234px and conversation 370px, with principal content capped at 1100px.
+Up to 1350px the sidebar becomes 208px, or 184px with the conversation open; the conversation is 330px. Up to 1120px these become 190px, 170px and 310px respectively. Headers stack to preserve readable feature titles and controls, and content gutters reduce to 24px. Settings navigation narrows independently. The rendered workflows have been checked at 1100×800, 1280×720 and 1440×900. Mobile remains outside the supported product scope.
 
 The existing CSS additionally hides the sidebar at 850px and below and overlays the conversation below 650px. These are implementation fallbacks; the supported design target is desktop PCs and narrower laptops. Mobile is outside the product scope.
 
@@ -254,9 +254,17 @@ The summary uses a quiet surface, a faint border, a small shadow and the `card-s
 
 Standard fields use `input-field`, muted labels and faint placeholders. Search is a shared rounded container with an inline search symbol, borderless input and shortcut hint; its visible focus belongs to the container. Keyboard focus uses a two-pixel blue outline offset by three pixels. The composer uses a surface-toned container, a short multiline textarea, explicit recipient and a silver send action. Preserve the separate recipient selector when an agent is inspected.
 
-### Navigation
+### Task flow and navigation
 
-The rail combines small colored SVG symbols with text labels; the current item gains a gray selection surface. Feature navigation uses multiline compact labels, state dots and the same gray selection. Conversation tabs remain flat, using text contrast and a narrow underline for the active tab. Graph map selection uses a small segmented control. All actionable items keep keyboard focus; icon-only actions keep accessible names.
+The rail combines authored SVG symbols with text labels: To do, Features, Agents and Changes. Settings has a visible label. The current destination gains a gray selection surface. Features show question counts, and selecting one opens its detail. The breadcrumb retains the feature name while the user scrolls. Search has a no-results state and Clear search action.
+
+Feature detail displays Clarify → Plan → Execute → Review with the current step exposed accessibly. Questions and recommendations sit beside their editable answers. A sticky footer submits answers and updates the plan without launching execution. Drafts are scoped by project, feature and plan revision. Saved answers remain recoverable after either an admission failure or a later analysis failure. Approval requests also appear directly in their feature.
+
+Conversation is an explicit destination. Inspecting a node preserves the recipient; a contextual button opens the relevant feature conversation. The composer names the recipient and intent next to the text, with separate drafts per recipient. Guide is offered for compatible active agents; commands remain in an advanced entry point. Native toggle buttons expose their pressed state. Agent mission, outcome and actions precede metadata and appearance customization.
+
+Settings is a page with persistent navigation: General, Engines & models, Execution & permissions, Verification and Local data. Profiles, advanced ratings and structured fallbacks preserve existing policy choices. Unsaved changes persist as a local draft; Save validates the complete policy, and Reset draft restores the current settings. Settings changes never bypass active-run restrictions.
+
+Dictation uses the browser's available speech service, with starting, listening, stop and error states. It inserts editable text into the current draft and never submits it. Unsupported browsers give an explicit explanation. The browser may use a remote speech service; this is not advertised as local transcription.
 
 ### Agent graph
 

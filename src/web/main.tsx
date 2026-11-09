@@ -18,31 +18,20 @@ import {
   type EdgeProps,
 } from '@xyflow/react';
 import {
-  Activity,
-  ArrowDownToLine,
   ArrowRight,
   Check,
   CheckCheck,
-  ChevronDown,
   ChevronRight,
-  Circle,
   CircleHelp,
-  Code2,
-  Command,
-  Copy,
   FileCode2,
   FolderGit2,
   GitBranch,
-  GitCommitHorizontal,
-  GitMerge,
   Layers,
   ListTodo,
   LoaderCircle,
   MessageSquare,
-  MoreHorizontal,
   Network,
   PanelRightClose,
-  PanelRightOpen,
   Pause,
   Play,
   Plus,
@@ -56,25 +45,31 @@ import {
   Workflow,
   X,
 } from 'lucide-react';
-import type {
-  Agent,
-  Approval,
-  Feature,
-  Profile,
-  Settings,
-  Snapshot,
-  Ticket,
-} from '../shared/contracts.ts';
+import type { Agent, Approval, Feature, Settings, Snapshot, Ticket } from '../shared/contracts.ts';
 import '@xyflow/react/dist/style.css';
 import './styles.css';
+import './workspace-redesign.css';
 
 import { api, renewSession } from './api.ts';
 import { useHistory } from './use-history.ts';
 import { GitOperations, CommitInspector } from './GitOperations.tsx';
-import { RoutingSettings } from './RoutingSettings.tsx';
-import { TicketEditor, WorktreeSettings, PreparationHistory } from './ExecutionSetup.tsx';
+import { TicketEditor, PreparationHistory } from './ExecutionSetup.tsx';
 import { DeliverySummary } from './DeliverySummary.tsx';
 import { TicketRecovery } from './TicketRecovery.tsx';
+import { WorkInbox } from './WorkInbox.tsx';
+import { WorkspaceSettings, type SettingsSection } from './WorkspaceSettings.tsx';
+import { WorkspaceSymbol } from './WorkspaceSymbol.tsx';
+import { ClarificationForm } from './ClarificationForm.tsx';
+import { RichText } from './RichText.tsx';
+import { Dictation } from './Dictation.tsx';
+import { useDraft } from './drafts.ts';
+import {
+  canAnalyze,
+  canExecute,
+  featureStage,
+  guideStates,
+  nextFeatureAction,
+} from './workflow.ts';
 const label = (s: string) => s.replaceAll('_', ' ').replace(/^./, (x) => x.toUpperCase());
 const time = (s: string) =>
   new Date(s).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -174,7 +169,7 @@ function Dialog({
     </dialog>
   );
 }
-type View = 'overview' | 'features' | 'swarm' | 'git';
+type View = 'overview' | 'features' | 'swarm' | 'git' | 'settings';
 function App() {
   const [data, setData] = useState<Snapshot>();
   const [error, setError] = useState('');
@@ -187,9 +182,17 @@ function App() {
     'hierarchy',
   );
   const [search, setSearch] = useState('');
-  const [panel, setPanel] = useState(true);
+  const [panel, setPanel] = useState(false);
   const [panelWidth, setPanelWidth] = useState<number>();
-  const [modal, setModal] = useState<'' | 'feature' | 'settings'>('');
+  const [modal, setModal] = useState<'' | 'feature'>('');
+  const [settingsSection, setSettingsSection] = useState<SettingsSection>('general');
+  const previousView = useRef<View>('overview');
+  const [conversationRequest, setConversationRequest] = useState<{
+    targetId: string;
+    key: number;
+  }>();
+  const [focusRequest, setFocusRequest] = useState<{ id: string; key: number }>();
+  const focusedRequest = useRef<number | undefined>(undefined);
   const [busy, setBusy] = useState('');
   const [toast, setToast] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
@@ -289,6 +292,30 @@ function App() {
   const run = (name: string, input: unknown) => {
     void action(name, input).catch(() => {});
   };
+  const openSettings = (section: SettingsSection = 'general') => {
+    if (view !== 'settings') previousView.current = view;
+    setSettingsSection(section);
+    setView('settings');
+  };
+  const openFeature = (id: string, focus?: string) => {
+    setSelected(id);
+    setAgentId('');
+    setTicketId('');
+    setView('features');
+    setFocusRequest({ id: focus || 'feature-start', key: Date.now() });
+  };
+  const openConversation = (targetId: string) => {
+    setConversationRequest({ targetId, key: Date.now() });
+    setPanel(true);
+  };
+  useEffect(() => {
+    if (view !== 'features' || !focusRequest || focusedRequest.current === focusRequest.key) return;
+    const target = document.getElementById(focusRequest.id);
+    if (!target) return;
+    target?.scrollIntoView({ block: 'start' });
+    target?.focus({ preventScroll: true });
+    focusedRequest.current = focusRequest.key;
+  }, [view, selected, focusRequest, data?.seq]);
   if (!data)
     return (
       <main className="loading">
@@ -305,21 +332,66 @@ function App() {
   const currentRun = activeRuns.find((r) => r.featureId === selected && r.kind !== 'chat');
   const pending = data.approvals.filter((a) => a.status === 'pending');
   const pickAgent = (id: string) => {
+    setConversationRequest(undefined);
     setAgentId(id);
     setPanel(true);
   };
-  const title = { overview: 'Overview', features: 'Features', swarm: 'Swarm', git: 'Git' }[view];
+  const title = {
+    overview: 'To do',
+    features: 'Features',
+    swarm: 'Agents',
+    git: 'Changes',
+    settings: 'Settings',
+  }[view];
+  const showPanel = panel && view !== 'settings';
+  const features = featureHistory.items;
+  const foundFeatures = features.filter((f) =>
+    (f.title + ' ' + f.description).toLowerCase().includes(search.toLowerCase()),
+  );
+  const waitingCount =
+    pending.length +
+    features.filter((f) => {
+      const next = nextFeatureAction(f);
+      return (
+        next &&
+        ['questions', 'blocked', 'review'].includes(next.kind) &&
+        f.status !== 'cancelled' &&
+        f.status !== 'integrated' &&
+        !activeRuns.some((r) => r.featureId === f.id) &&
+        !pending.some((a) => a.featureId === f.id)
+      );
+    }).length;
   return (
-    <div className="app-shell">
+    <div className={'app-shell' + (showPanel ? ' with-conversation' : '')}>
       <aside className="rail" aria-label="Primary navigation">
         <img className="app-icon" src="/tesslane.png" alt="Tesslane" />
         <div className="rail-nav">
           {(
             [
-              { id: 'overview', icon: <Layers />, color: 'violet', name: 'Overview' },
-              { id: 'features', icon: <ListTodo />, color: 'amber', name: 'Features' },
-              { id: 'swarm', icon: <Network />, color: 'green', name: 'Swarm' },
-              { id: 'git', icon: <GitBranch />, color: 'blue', name: 'Git' },
+              {
+                id: 'overview',
+                icon: <WorkspaceSymbol kind="inbox" />,
+                color: 'violet',
+                name: 'To do',
+              },
+              {
+                id: 'features',
+                icon: <WorkspaceSymbol kind="feature" />,
+                color: 'amber',
+                name: 'Features',
+              },
+              {
+                id: 'swarm',
+                icon: <WorkspaceSymbol kind="agents" />,
+                color: 'green',
+                name: 'Agents',
+              },
+              {
+                id: 'git',
+                icon: <WorkspaceSymbol kind="changes" />,
+                color: 'blue',
+                name: 'Changes',
+              },
             ] as const
           ).map((item) => (
             <button
@@ -331,13 +403,21 @@ function App() {
             >
               <span className={'rail-symbol ' + item.color}>{item.icon}</span>
               <span>{item.name}</span>
+              {item.id === 'overview' && waitingCount > 0 && (
+                <span className="nav-count">{waitingCount}</span>
+              )}
             </button>
           ))}
         </div>
         <div className="rail-bottom">
-          <IconButton title="Settings" onClick={() => setModal('settings')}>
+          <button
+            className={'rail-settings ' + (view === 'settings' ? 'active' : '')}
+            aria-current={view === 'settings' ? 'page' : undefined}
+            onClick={() => openSettings()}
+          >
             <Settings2 size={20} />
-          </IconButton>
+            <span>Settings</span>
+          </button>
           <span
             className={'connection ' + (connected ? 'online' : '')}
             title={connected ? 'Connected to local engine' : 'Reconnecting to local engine'}
@@ -376,25 +456,35 @@ function App() {
           </IconButton>
         </div>
         <nav className="feature-nav" aria-label="Features">
-          {featureHistory.items
-            .filter((f) =>
-              (f.title + ' ' + f.description).toLowerCase().includes(search.toLowerCase()),
-            )
-            .map((f) => (
-              <button
-                key={f.id}
-                className={'feature-link ' + (selected === f.id ? 'selected' : '')}
-                onClick={() => {
-                  setSelected(f.id);
-                  setAgentId('');
-                }}
-              >
-                <span className={'feature-dot ' + f.status} />
-                <span>{f.title}</span>
-                {f.status === 'integrated' && <Check size={13} />}
-              </button>
-            ))}
+          {foundFeatures.map((f) => (
+            <button
+              key={f.id}
+              className={
+                'feature-link ' +
+                (selected === f.id && (view === 'features' || view === 'swarm') ? 'selected' : '')
+              }
+              aria-current={selected === f.id && view === 'features' ? 'page' : undefined}
+              onClick={() => openFeature(f.id)}
+            >
+              <span className={'feature-dot ' + f.status} />
+              <span>{f.title}</span>
+              {f.questions?.length ? (
+                <span className="feature-question-count" title="Questions waiting for your answers">
+                  {f.questions.length}
+                  <CircleHelp size={12} />
+                </span>
+              ) : (
+                f.status === 'integrated' && <Check size={13} />
+              )}
+            </button>
+          ))}
         </nav>
+        {search && !foundFeatures.length && (
+          <div className="search-empty">
+            <p>No features match “{search}”.</p>
+            <button onClick={() => setSearch('')}>Clear search</button>
+          </div>
+        )}
         {featureHistory.hasMore && (
           <button
             className="add-feature"
@@ -422,7 +512,7 @@ function App() {
               ? activeRuns.length + ' active run' + (activeRuns.length > 1 ? 's' : '')
               : 'Ready when you are'}
           </small>
-          <button onClick={() => setModal('settings')}>
+          <button onClick={() => openSettings('models')}>
             Manage engines <ChevronRight size={12} />
           </button>
         </div>
@@ -432,19 +522,25 @@ function App() {
           <div className="breadcrumbs">
             <span>{data.project.name}</span>
             <ChevronRight size={13} />
-            <strong>{title}</strong>
+            <strong title={view === 'features' && feature ? feature.title : title}>
+              {view === 'features' && feature ? feature.title : title}
+            </strong>
           </div>
           <div className="toolbar">
             {data.project.demo && <span className="sample-badge">Sample workspace</span>}
             <span className="local-label">
               <span /> Local
             </span>
-            <IconButton
+            <button
+              className="conversation-toggle"
+              disabled={view === 'settings'}
+              aria-pressed={showPanel}
               title={panel ? 'Hide conversation panel' : 'Show conversation panel'}
               onClick={() => setPanel(!panel)}
             >
-              {panel ? <PanelRightClose size={17} /> : <PanelRightOpen size={17} />}
-            </IconButton>
+              {showPanel ? <PanelRightClose size={17} /> : <MessageSquare size={17} />}
+              <span>Conversation</span>
+            </button>
           </div>
         </header>
         {error && (
@@ -467,7 +563,7 @@ function App() {
             made.
           </div>
         )}
-        {pending.length > 0 && (
+        {pending.length > 0 && view !== 'overview' && view !== 'settings' && (
           <div className="approval-strip">
             <ShieldCheck size={16} />
             <span>
@@ -475,9 +571,7 @@ function App() {
             </span>
             <button
               onClick={() => {
-                setPanel(true);
-                setAgentId(pending[0].agentId ?? '');
-                setSelected(pending[0].featureId);
+                openFeature(pending[0].featureId, 'feature-approvals');
               }}
             >
               Review requests <ArrowRight size={13} />
@@ -486,36 +580,44 @@ function App() {
         )}
         <div className="workspace-body">
           <div className="main-pane">
-            <section className="page-header">
+            <section className="page-header" id="feature-start" tabIndex={-1}>
               <div>
                 <h1>{view === 'features' && feature ? feature.title : title}</h1>
               </div>
               <div className="page-actions">
-                {feature && !data.project.demo && (
+                {feature && view === 'features' && !data.project.demo && (
                   <>
-                    {['draft', 'clarifying', 'ready', 'blocked'].includes(feature.status) &&
-                      !feature.worktree && (
+                    {canAnalyze(feature, data) &&
+                      (!feature.questions?.length || feature.status === 'blocked') && (
                         <button
                           disabled={Boolean(currentRun) || Boolean(busy)}
                           onClick={() => run('plan', { featureId: feature.id })}
                         >
                           <Workflow size={14} />
-                          {feature.planRevision ? 'Analyze again' : 'Analyze feature'}
+                          {feature.status === 'blocked'
+                            ? 'Retry analysis'
+                            : feature.planRevision
+                              ? 'Analyze again'
+                              : 'Analyze feature'}
                         </button>
                       )}
-                    {['ready', 'blocked', 'ready_for_integration'].includes(feature.status) && (
+                    {canExecute(feature, data) && (
                       <button
                         className="primary"
                         disabled={Boolean(currentRun) || Boolean(busy)}
                         onClick={() => run('execute', { featureId: feature.id })}
                       >
                         <Play size={13} />
-                        Run feature
+                        {feature.status === 'ready_for_integration'
+                          ? 'Continue integration'
+                          : data.settings.mode === 'assisted'
+                            ? 'Review plan & start'
+                            : 'Start execution'}
                       </button>
                     )}
                   </>
                 )}
-                {!feature && (
+                {(view === 'overview' || (view === 'features' && !feature)) && (
                   <button className="primary" onClick={() => setModal('feature')}>
                     <Plus size={14} />
                     New feature
@@ -523,7 +625,7 @@ function App() {
                 )}
               </div>
             </section>
-            {currentRun && (
+            {currentRun && view !== 'overview' && view !== 'settings' && (
               <div className="run-controls">
                 <Status value={currentRun.status} />
                 <span>{label(currentRun.kind)} run · policy snapshot saved</span>
@@ -554,25 +656,27 @@ function App() {
               </div>
             )}
             {view === 'overview' && (
-              <Overview
+              <WorkInbox
                 data={data}
-                feature={feature}
-                tickets={tickets}
-                selectView={(view) => {
-                  if (view === 'swarm') setInitialMap('dependencies');
-                  setView(view);
-                }}
-                selectAgent={pickAgent}
+                features={features}
+                openFeature={openFeature}
                 newFeature={() => setModal('feature')}
+                hasMore={featureHistory.hasMore}
+                loading={featureHistory.loading}
+                loadEarlier={featureHistory.load}
               />
             )}
             {view === 'features' &&
               (feature ? (
                 <FeatureDetail
+                  key={feature.id}
                   feature={feature}
                   tickets={tickets}
                   data={data}
                   run={run}
+                  action={action}
+                  openSettings={openSettings}
+                  openConversation={() => openConversation(feature.id)}
                   selectAgent={pickAgent}
                   openTicketId={ticketId}
                 />
@@ -610,8 +714,19 @@ function App() {
                 selectAgent={pickAgent}
               />
             )}
+            {view === 'settings' && (
+              <WorkspaceSettings
+                data={data}
+                initialSection={settingsSection}
+                close={() => setView(previousView.current)}
+                save={async (settings) => {
+                  await action('settings', settings);
+                  setToast('Workspace settings saved');
+                }}
+              />
+            )}
           </div>
-          {panel && (
+          {showPanel && (
             <div
               className="panel-resizer"
               role="separator"
@@ -648,7 +763,7 @@ function App() {
               }}
             />
           )}
-          {panel && (
+          {showPanel && (
             <Conversation
               width={panelWidth}
               data={data}
@@ -656,6 +771,8 @@ function App() {
               agentId={agentId}
               setAgent={setAgentId}
               action={action}
+              request={conversationRequest}
+              openFeature={openFeature}
             />
           )}
         </div>
@@ -677,17 +794,6 @@ function App() {
           }}
         />
       )}
-      {modal === 'settings' && (
-        <SettingsDialog
-          data={data}
-          close={() => setModal('')}
-          save={async (settings) => {
-            await action('settings', settings);
-            setModal('');
-            setToast('Workspace settings saved');
-          }}
-        />
-      )}
       {!data.project.configured && !data.project.demo && (
         <Onboarding
           data={data}
@@ -700,170 +806,6 @@ function App() {
     </div>
   );
 }
-function Overview({
-  data,
-  feature,
-  tickets,
-  selectView,
-  selectAgent,
-  newFeature,
-}: {
-  data: Snapshot;
-  feature?: Feature;
-  tickets: Ticket[];
-  selectView: (v: View) => void;
-  selectAgent: (id: string) => void;
-  newFeature: () => void;
-}) {
-  const agents = data.agents.filter((a) => a.featureId === feature?.id);
-  const complete = tickets.filter((t) => t.state === 'integrated').length;
-  if (!feature)
-    return (
-      <div className="welcome">
-        <img src="/tesslane.png" alt="" />
-        <h2>
-          A little clarity.
-          <br />A lot of progress.
-        </h2>
-        <p>
-          Turn your next idea into a focused plan.
-          <br />
-          Keep every agent, decision, and change in view.
-        </p>
-        <button className="primary" onClick={newFeature}>
-          <Plus size={15} />
-          Add your first feature
-        </button>
-        <div className="welcome-steps">
-          <span>
-            <Workflow size={18} />
-            Understand
-          </span>
-          <ChevronRight size={13} />
-          <span>
-            <Network size={18} />
-            Orchestrate
-          </span>
-          <ChevronRight size={13} />
-          <span>
-            <CheckCheck size={18} />
-            Verify
-          </span>
-        </div>
-      </div>
-    );
-  return (
-    <div className="overview-content">
-      <section className="feature-summary">
-        <div className="section-heading">
-          <span>
-            <span className="small-icon amber">
-              <ListTodo size={14} />
-            </span>
-            In focus
-          </span>
-          <Status value={feature.status} />
-        </div>
-        <h2>{feature.title}</h2>
-        <p>{feature.summary || feature.description}</p>
-        <div className="progress-caption">
-          <span>
-            {complete} of {tickets.length} tickets integrated
-          </span>
-          <strong>{tickets.length ? Math.round((complete / tickets.length) * 100) : 0}%</strong>
-        </div>
-        <div className="progress-track">
-          <div style={{ width: (tickets.length ? (complete / tickets.length) * 100 : 0) + '%' }} />
-        </div>
-        <div className="feature-summary-footer">
-          <span>
-            <RobotAvatar seed="workspace-agents" size={20} />
-            {agents.length} agents recorded
-          </span>
-          <button onClick={() => selectView('features')}>
-            View feature <ArrowRight size={13} />
-          </button>
-        </div>
-      </section>
-      <section className="section-block">
-        <div className="section-heading">
-          <h2>Delivery plan</h2>
-          <button onClick={() => selectView('swarm')}>
-            <Network size={13} />
-            View dependency map
-          </button>
-        </div>
-        {tickets.length ? (
-          tickets.map((t, i) => (
-            <div className="delivery-row" key={t.id}>
-              <span className={'step-number ' + (t.state === 'integrated' ? 'done' : '')}>
-                {t.state === 'integrated' ? <Check size={13} /> : String(i + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <strong>{t.title}</strong>
-                <small>
-                  {t.dependencies.length
-                    ? t.dependencies.length +
-                      ' prerequisite' +
-                      (t.dependencies.length > 1 ? 's' : '')
-                    : 'Can start independently'}
-                </small>
-              </div>
-              <Status value={t.state} />
-            </div>
-          ))
-        ) : (
-          <p className="muted inset">
-            Analyze this feature to create the smallest useful delivery plan.
-          </p>
-        )}
-      </section>
-      <section className="section-block">
-        <div className="section-heading">
-          <h2>Agent activity</h2>
-          <span className="muted">
-            {data.project.demo ? 'Sample activity' : 'Recorded locally'}
-          </span>
-        </div>
-        {agents.length ? (
-          agents
-            .slice(-5)
-            .reverse()
-            .map((a) => (
-              <button className="activity-row" key={a.id} onClick={() => selectAgent(a.id)}>
-                <RobotAvatar
-                  seed={a.id}
-                  role={a.role}
-                  state={a.state}
-                  appearance={agentAvatar(a.id, a.role, data.avatars)}
-                  size={38}
-                />
-                <div>
-                  <strong>{a.name}</strong>
-                  <small>{a.summary?.slice(0, 85) || a.selectionReason}</small>
-                </div>
-                <span className="activity-time">{time(a.startedAt)}</span>
-                <ChevronRight size={13} />
-              </button>
-            ))
-        ) : (
-          <p className="muted inset">
-            Agent work will appear here when you analyze or run a feature.
-          </p>
-        )}
-      </section>
-      <div className="engine-footer">
-        {data.diagnostic.engines.map((e) => (
-          <span key={e.name}>
-            <span className={'engine-light ' + (e.available ? 'available' : '')} />
-            {e.name === 'codex' ? 'Codex' : 'Claude Code'}
-            <small>{e.available ? 'CLI available' : 'Not installed'}</small>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
 function FeatureDetail({
   feature,
   tickets,
@@ -871,6 +813,9 @@ function FeatureDetail({
   run,
   selectAgent,
   openTicketId,
+  action,
+  openSettings,
+  openConversation,
 }: {
   feature: Feature;
   tickets: Ticket[];
@@ -878,6 +823,9 @@ function FeatureDetail({
   run: (path: string, input: unknown) => void;
   selectAgent: (id: string) => void;
   openTicketId?: string;
+  action: (path: string, input: unknown) => Promise<any>;
+  openSettings: (section: SettingsSection) => void;
+  openConversation: () => void;
 }) {
   const [editing, setEditing] = useState('');
   const editable =
@@ -890,11 +838,41 @@ function FeatureDetail({
     if (openTicketId) setExpanded(openTicketId);
   }, [openTicketId]);
   const [diff, setDiff] = useState<{ id: string; text: string }>();
+  const stage = featureStage(feature);
+  const approvals = data.approvals.filter(
+    (a) => a.featureId === feature.id && a.status === 'pending',
+  );
+  const active = data.runs.some((r) => r.featureId === feature.id && liveStates.has(r.status));
   return (
     <div className="feature-detail">
+      <ol className="feature-stages" aria-label="Feature progress">
+        {['Clarify', 'Plan', 'Execute', 'Review'].map((name, index) => (
+          <li
+            key={name}
+            className={
+              index < stage || feature.status === 'integrated'
+                ? 'complete'
+                : index === stage
+                  ? 'current'
+                  : ''
+            }
+            aria-current={index === stage ? 'step' : undefined}
+          >
+            <span>
+              {index < stage || feature.status === 'integrated' ? <Check size={14} /> : index + 1}
+            </span>
+            {name}
+          </li>
+        ))}
+      </ol>
       <div className="feature-description">
         <Status value={feature.status} />
-        <p>{feature.description}</p>
+        <RichText text={feature.description} />
+        <button className="feature-discuss" onClick={openConversation}>
+          <MessageSquare size={15} />
+          Discuss this feature
+          <ArrowRight size={14} />
+        </button>
         {feature.externalRef && (
           <a href={feature.externalRef} target="_blank" rel="noreferrer">
             Open original issue <ArrowRight size={12} />
@@ -914,18 +892,54 @@ function FeatureDetail({
           </div>
         )}
       </div>
-      {!!feature.questions?.length && (
-        <section className="questions">
-          <h2>A few decisions before we start</h2>
-          {feature.questions.map((q) => (
-            <div key={q.id}>
-              <strong>{q.question}</strong>
-              <p>Recommendation: {q.recommendation}</p>
-            </div>
+      {!!approvals.length && (
+        <section
+          className="feature-approvals"
+          id="feature-approvals"
+          tabIndex={-1}
+          aria-label="Requests waiting for your decision"
+        >
+          <h2>
+            <ShieldCheck size={18} />
+            Waiting for your decision
+          </h2>
+          {approvals.map((approval) => (
+            <ApprovalCard key={approval.id} approval={approval} action={action} />
           ))}
-          <p className="muted">Answer in the feature conversation, then select “Analyze again”.</p>
         </section>
       )}
+      {!!feature.questions?.length && (
+        <ClarificationForm
+          key={feature.planRevision}
+          feature={feature}
+          data={data}
+          action={action}
+          disabled={data.project.demo || active}
+        />
+      )}
+      {feature.status === 'ready' &&
+        !feature.questions?.length &&
+        !active &&
+        !data.project.demo &&
+        !canExecute(feature, data) && (
+          <div className="feature-prerequisites">
+            <ShieldCheck size={18} />
+            <div>
+              <strong>Before execution</strong>
+              <p>
+                {data.settings.mode === 'planning'
+                  ? 'This workspace is in Plan only mode. Choose an execution mode when you are ready to implement.'
+                  : !data.settings.allowGitCommit || !data.settings.allowIntegration
+                    ? 'Execution needs permission to commit tickets locally and integrate them into the feature branch.'
+                    : 'Review the ticket states and delivery plan before starting.'}
+              </p>
+              <button onClick={() => openSettings('execution')}>
+                Review execution settings
+                <ArrowRight size={14} />
+              </button>
+            </div>
+          </div>
+        )}
       {!!feature.criteria.length && (
         <section className="section-block criteria">
           <h2>Acceptance criteria</h2>
@@ -944,6 +958,18 @@ function FeatureDetail({
             {tickets.length} ticket{tickets.length !== 1 ? 's' : ''}
           </span>
         </div>
+        {!tickets.length && (
+          <div className="plan-empty">
+            <ListTodo size={20} />
+            <p>
+              {feature.questions?.length
+                ? 'Delivery tickets will be reviewed after your decisions are resolved.'
+                : active
+                  ? 'The plan is being prepared. Progress will appear here.'
+                  : 'Analyze this feature to prepare a delivery plan.'}
+            </p>
+          </div>
+        )}
         {tickets.map((t, i) => (
           <div className="ticket" key={t.id}>
             <button
@@ -1092,10 +1118,20 @@ function FeatureDetail({
               <CheckOutput check={c} />
             </details>
           ))}
+        {!data.checks.some((check) => check.featureId === feature.id && !check.ticketId) &&
+          (data.settings.verificationCommands.length > 0 ||
+            tickets.some((ticket) => ticket.verificationCommands?.length)) && (
+            <p className="muted">
+              Verification is configured. Results will appear here when checks run during execution.
+            </p>
+          )}
         {!data.settings.verificationCommands.length &&
           !tickets.some((t) => t.verificationCommands?.length) && (
             <p className="muted">
-              No automated commands configured. Add the project’s meaningful checks in Settings.
+              No automated commands configured.{' '}
+              <button className="text-action" onClick={() => openSettings('verification')}>
+                Configure verification checks <ArrowRight size={13} />
+              </button>
             </p>
           )}
       </section>
@@ -1375,9 +1411,14 @@ function Swarm({
   return (
     <div className="swarm-view" ref={graphRef}>
       <div className="graph-toolbar">
-        <div className="segmented">
+        <div className="segmented" role="group" aria-label="Agent graph view">
           {(['hierarchy', 'dependencies', 'interactions'] as const).map((v) => (
-            <button key={v} className={map === v ? 'active' : ''} onClick={() => setMap(v)}>
+            <button
+              key={v}
+              aria-pressed={map === v}
+              className={map === v ? 'active' : ''}
+              onClick={() => setMap(v)}
+            >
               {label(v)}
             </button>
           ))}
@@ -1637,6 +1678,8 @@ function Conversation({
   setAgent,
   action,
   width,
+  request,
+  openFeature,
 }: {
   data: Snapshot;
   feature?: Feature;
@@ -1644,13 +1687,29 @@ function Conversation({
   setAgent: (s: string) => void;
   action: (path: string, input: unknown) => Promise<any>;
   width?: number;
+  request?: { targetId: string; key: number };
+  openFeature: (id: string, focus?: string) => void;
 }) {
-  const [tab, setTab] = useState<'chat' | 'inspector' | 'events'>('chat');
-  const [content, setContent] = useState('');
+  const [tab, setTab] = useState<'chat' | 'inspector' | 'events'>(() =>
+    agentId ? 'inspector' : 'chat',
+  );
   const [recipient, setRecipient] = useState('project');
+  const [draft, setContent, draftStored] = useDraft(
+    `tesslane:chat:${data.project.root}:${recipient}`,
+    '',
+  );
+  const content = typeof draft === 'string' ? draft : '';
+  const [listening, setListening] = useState(false);
   const [sending, setSending] = useState(false),
     [error, setError] = useState('');
   const [mode, setMode] = useState<'discuss' | 'steer' | 'command'>('discuss');
+  useEffect(() => {
+    if (!request) return;
+    setRecipient(request.targetId);
+    setMode('discuss');
+    setTab('chat');
+    setError('');
+  }, [request?.key]);
   const draftId = useRef<{ key: string; id: string } | undefined>(undefined);
   const [historicalAgent, setHistoricalAgent] = useState<Agent>();
   const agent =
@@ -1702,8 +1761,22 @@ function Conversation({
   );
   const messages = messageHistory.items.filter((m) => m.role !== 'reasoning');
   const events = eventHistory.items;
-  const pending = data.approvals.filter(
-    (a) => a.status === 'pending' && (!feature || a.featureId === feature.id),
+  const recipientFeature = data.features.find((f) => f.id === recipient);
+  const recipientTicket = data.tickets.find((t) => t.id === recipient);
+  const recipientName =
+    recipient === 'project'
+      ? `${data.project.name} · project`
+      : recipientFeature?.title ||
+        recipientTicket?.title ||
+        recipientAgent?.name ||
+        'Recorded conversation';
+  const canGuide = Boolean(
+    recipientAgent &&
+    !recipientAgent.native &&
+    guideStates.has(recipientAgent.state) &&
+    (recipientAgent.role !== 'coordinator' ||
+      recipientAgent.sessionId ||
+      recipientAgent.readOnly !== undefined),
   );
   const end = useRef<HTMLDivElement>(null),
     scroll = useRef<HTMLDivElement>(null),
@@ -1712,20 +1785,29 @@ function Conversation({
     pinned.current = true;
   }, [recipient, tab]);
   useEffect(() => {
-    if (pinned.current) end.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    if (pinned.current && messages.length)
+      end.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    else if (!messages.length) scroll.current?.scrollTo({ top: 0 });
   }, [messages.at(-1)?.id, messages.at(-1)?.content, recipient, tab]);
   const send = async () => {
-    if (!content.trim() || sending) return;
+    if (!content.trim() || sending || listening || data.project.demo) return;
+    if (content.trim().startsWith('/') && mode !== 'command') {
+      setMode('command');
+      setError(
+        'This is an execution command. Review the destination below, then send again to run it.',
+      );
+      return;
+    }
     pinned.current = true;
     setSending(true);
     setError('');
-    const key = recipient + '|' + mode + '|' + content;
+    const key = recipient + '|' + mode + '|' + content.trim();
     if (draftId.current?.key !== key) draftId.current = { key, id: crypto.randomUUID() };
     try {
       const result = await action('chat', {
         featureId: targetFeature,
         targetId: recipient,
-        content,
+        content: content.trim(),
         mode,
         requestId: draftId.current.id,
       });
@@ -1749,13 +1831,18 @@ function Conversation({
       <header className="conversation-header">
         <span>
           <MessageSquare size={15} />
-          Workspace
+          Conversation
         </span>
         <span className="private-label">Local</span>
       </header>
-      <div className="panel-tabs">
+      <div className="panel-tabs" role="group" aria-label="Conversation panel views">
         {(['chat', 'inspector', 'events'] as const).map((v) => (
-          <button key={v} className={tab === v ? 'active' : ''} onClick={() => setTab(v)}>
+          <button
+            key={v}
+            aria-pressed={tab === v}
+            className={tab === v ? 'active' : ''}
+            onClick={() => setTab(v)}
+          >
             {label(v)}
             {v === 'inspector' && agent && <span className="tiny-dot" />}
           </button>
@@ -1765,7 +1852,16 @@ function Conversation({
         <>
           <div className="recipient">
             <label htmlFor="recipient">Conversation with</label>
-            <select id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)}>
+            <select
+              id="recipient"
+              disabled={sending}
+              value={recipient}
+              onChange={(e) => {
+                setRecipient(e.target.value);
+                setMode('discuss');
+                setError('');
+              }}
+            >
               <option value="project">Project</option>
               {data.features.map((f) => (
                 <option value={f.id} key={f.id}>
@@ -1788,17 +1884,23 @@ function Conversation({
                 ))}
             </select>
           </div>
-          <div className="chat-mode segmented" aria-label="Chat mode">
-            {(['discuss', 'steer', 'command'] as const).map((value) => (
+          {feature && targetFeature !== feature.id && (
+            <div className="conversation-context">
+              <span>
+                Viewing <strong>{feature.title}</strong>
+              </span>
               <button
-                key={value}
-                className={mode === value ? 'active' : ''}
-                onClick={() => setMode(value)}
+                onClick={() => {
+                  setRecipient(feature.id);
+                  setMode('discuss');
+                  setError('');
+                }}
               >
-                {value === 'discuss' ? 'Discuss' : value === 'steer' ? 'Guide agent' : 'Control'}
+                Discuss this feature
+                <ArrowRight size={13} />
               </button>
-            ))}
-          </div>
+            </div>
+          )}
           <div
             className="conversation-scroll"
             ref={scroll}
@@ -1825,14 +1927,7 @@ function Conversation({
             {messageHistory.error && <p className="inline-error">{messageHistory.error}</p>}
             {!messages.length && (
               <div className="chat-intro">
-                <span className="chat-spark">
-                  <Command size={23} />
-                </span>
-                <h3>
-                  Space to think.
-                  <br />
-                  Clarity to build.
-                </h3>
+                <h3>{recipient === 'project' ? 'Discuss this project' : 'Discuss this work'}</h3>
                 <p>
                   {recipient === 'project'
                     ? 'Ask about your codebase, discuss an approach, or prepare the next feature.'
@@ -1840,8 +1935,7 @@ function Conversation({
                 </p>
                 <span className="chat-note">
                   <ShieldCheck size={13} />
-                  Discuss proposes actions. Control runs commands. Guide sends input to an active
-                  agent.
+                  Discussion is read-only. Proposed actions need your explicit click.
                 </span>
               </div>
             )}
@@ -1851,11 +1945,17 @@ function Conversation({
                   {m.role === 'user' ? 'You' : m.role === 'assistant' ? 'Tesslane' : 'System'}
                   <time>{time(m.createdAt)}</time>
                 </div>
-                <p>{m.content}</p>
+                <RichText text={m.content} />
                 {m.delivery && (
                   <div className={'delivery-state ' + m.delivery} title={m.deliveryDetail}>
                     {label(m.delivery)}
-                    {m.deliveryDetail && <small>{m.deliveryDetail}</small>}
+                    {m.deliveryDetail && (
+                      <small>
+                        {m.deliveryDetail.startsWith('Clarification recorded.')
+                          ? 'Decisions recorded in this feature’s conversation.'
+                          : m.deliveryDetail}
+                      </small>
+                    )}
                   </div>
                 )}
                 {actionHistory.items
@@ -1866,6 +1966,23 @@ function Conversation({
                       proposal={proposal}
                       action={action}
                       disabled={data.project.demo}
+                      targetName={
+                        proposal.targetId === 'project'
+                          ? data.project.name
+                          : data.features.find((f) => f.id === proposal.targetId)?.title ||
+                            data.tickets.find((t) => t.id === proposal.targetId)?.title ||
+                            data.features.find((f) => f.id === proposal.featureId)?.title ||
+                            'Recorded work'
+                      }
+                      inspect={
+                        proposal.targetId !== 'project'
+                          ? () =>
+                              openFeature(
+                                data.tickets.find((t) => t.id === proposal.targetId)?.featureId ||
+                                  proposal.featureId,
+                              )
+                          : undefined
+                      }
                     />
                   ))}
               </article>
@@ -1874,15 +1991,50 @@ function Conversation({
           </div>
           {error && <p className="inline-error">{error}</p>}
           <div className="composer">
+            <div className="composer-context">
+              <span>
+                To <strong>{recipientName}</strong>
+              </span>
+              <div className="composer-modes" role="group" aria-label="Message intent">
+                <button
+                  disabled={sending}
+                  className={mode === 'discuss' ? 'active' : ''}
+                  aria-pressed={mode === 'discuss'}
+                  onClick={() => setMode('discuss')}
+                >
+                  <MessageSquare size={13} />
+                  Discuss
+                </button>
+                {canGuide && (
+                  <button
+                    disabled={sending}
+                    className={mode === 'steer' ? 'active' : ''}
+                    aria-pressed={mode === 'steer'}
+                    onClick={() => setMode('steer')}
+                  >
+                    <Send size={13} />
+                    Guide agent
+                  </button>
+                )}
+                {mode === 'command' && (
+                  <span className="command-mode-label">
+                    <Terminal size={13} />
+                    Command
+                  </span>
+                )}
+              </div>
+            </div>
             <textarea
               aria-label="Message"
+              disabled={sending}
+              maxLength={50000}
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={
                 mode === 'command'
                   ? '/plan, /run, /pause, /stop…'
                   : mode === 'steer'
-                    ? 'Guide the selected active agent…'
+                    ? 'Send an instruction to this active agent…'
                     : 'Discuss a feature or ask for a proposed action…'
               }
               onKeyDown={(e) => {
@@ -1892,15 +2044,14 @@ function Conversation({
                 }
               }}
             />
-            <div>
+            <Dictation
+              key={recipient}
+              disabled={sending || data.project.demo}
+              onListening={setListening}
+              append={(text) => setContent([content, text].filter(Boolean).join(' '))}
+            />
+            <div className="composer-actions">
               <span>
-                {recipient === 'project'
-                  ? 'Project'
-                  : data.features.find((f) => f.id === recipient)
-                    ? 'Feature'
-                    : recipientAgent
-                      ? 'Agent'
-                      : 'Ticket'}
                 <small>⌘ ↵ to send</small>
               </span>
               <button
@@ -1908,31 +2059,39 @@ function Conversation({
                 className="send-button"
                 disabled={
                   sending ||
+                  listening ||
                   !content.trim() ||
                   data.project.demo ||
-                  (mode === 'steer' &&
-                    (!recipientAgent ||
-                      recipientAgent.native ||
-                      !liveStates.has(recipientAgent.state)))
+                  (mode === 'steer' && !canGuide)
                 }
                 onClick={send}
               >
                 {sending ? <LoaderCircle size={15} /> : <ArrowRight size={16} />}
+                {sending ? 'Sending…' : 'Send'}
               </button>
             </div>
           </div>
           <div className="panel-footnote">
-            Selecting a node never changes your chat recipient. Model changes apply at the next
-            attempt.
+            {mode === 'steer'
+              ? canGuide
+                ? 'Instruction for this active agent. Delivery status appears with your message.'
+                : 'This agent is no longer available for guidance. Switch to Discuss for a follow-up.'
+              : mode === 'command'
+                ? 'Execution command for this destination. Approvals and permissions still apply.'
+                : 'Read-only discussion. Proposed actions require your confirmation.'}{' '}
+            {draftStored ? 'Draft kept on this device.' : 'Draft kept in this tab.'}
           </div>
           <details className="command-help">
-            <summary>Execution commands</summary>
+            <summary>Advanced · execution commands</summary>
             <p>
               <code>/feature Title</code> creates a feature. In a feature or ticket scope:{' '}
               <code>/plan</code>, <code>/run</code>, <code>/pause</code>, <code>/resume</code>,{' '}
               <code>/stop</code>, <code>/status</code>, <code>/retry</code>, <code>/integrate</code>
               , <code>/profile deep</code>. Approvals and Git checks still apply.
             </p>
+            <button onClick={() => setMode(mode === 'command' ? 'discuss' : 'command')}>
+              {mode === 'command' ? 'Return to discussion' : 'Use command mode'}
+            </button>
           </details>
         </>
       )}
@@ -1951,74 +2110,95 @@ function Conversation({
                 <h3>{agent.name}</h3>
                 <Status value={agent.state} />
               </div>
-              <AvatarCustomizer
-                key={agent.id}
-                agent={agent}
-                preferences={data.avatars ?? {}}
-                save={(appearance) => action('avatar', { agentId: agent.id, appearance })}
-              />
-              <dl>
-                {[
-                  ['Role', label(agent.role)],
-                  [
-                    'Engine',
-                    agent.sessionId
-                      ? label(agent.engine)
-                      : agent.role === 'coordinator'
-                        ? 'Local scheduler'
-                        : label(agent.engine),
-                  ],
-                  ['Requested model', agent.model || 'Native engine default'],
-                  ['Reported model', agent.effectiveModel || 'Not reported'],
-                  ['Engine configuration', agent.configuredModel || 'Not reported'],
-                  ['Effort', agent.effort || 'Native engine default'],
-                  ['Profile', label(agent.profile)],
-                  ['Session', agent.sessionId ?? 'Not reported'],
-                  ['Workspace', agent.workspace],
-                  [
-                    'Input / output tokens',
-                    agent.usage
-                      ? String(agent.usage.inputTokens ?? '?') +
-                        ' / ' +
-                        String(agent.usage.outputTokens ?? '?')
-                      : 'Not reported',
-                  ],
-                  [
-                    'Provider cost estimate',
-                    agent.usage?.costUsd === undefined
-                      ? 'Not reported'
-                      : '$' + agent.usage.costUsd.toFixed(4),
-                  ],
-                ].map(([key, value]) => (
-                  <React.Fragment key={key}>
-                    <dt>{key}</dt>
-                    <dd>{value}</dd>
-                  </React.Fragment>
-                ))}
-              </dl>
-              <p className="muted">{agent.selectionReason}</p>
-              {agent.error && <p className="inline-error">{agent.error}</p>}
-              <button
-                onClick={() => {
-                  setRecipient(agent.id);
-                  setMode('discuss');
-                  setTab('chat');
-                }}
-              >
-                Open scoped follow-up <ArrowRight size={13} />
-              </button>
-              {!agent.native && liveStates.has(agent.state) && (
+              <div className="agent-mission">
+                <strong>
+                  {data.tickets.find((ticket) => ticket.id === agent.ticketId)?.title ||
+                    label(agent.role)}
+                </strong>
+                <RichText
+                  text={
+                    agent.summary || 'Inspect the recorded activity and choose a follow-up below.'
+                  }
+                />
+              </div>
+              {agent.error && (
+                <p className="inline-error" role="alert">
+                  {agent.error}
+                </p>
+              )}
+              <div className="agent-actions">
                 <button
-                  disabled={data.project.demo}
                   onClick={() => {
                     setRecipient(agent.id);
-                    setMode('steer');
+                    setMode('discuss');
                     setTab('chat');
                   }}
                 >
-                  Guide this active agent <ArrowRight size={13} />
+                  Open scoped follow-up <ArrowRight size={13} />
                 </button>
-              )}
+                {!agent.native &&
+                  guideStates.has(agent.state) &&
+                  (agent.role !== 'coordinator' ||
+                    agent.sessionId ||
+                    agent.readOnly !== undefined) && (
+                    <button
+                      disabled={data.project.demo}
+                      onClick={() => {
+                        setRecipient(agent.id);
+                        setMode('steer');
+                        setTab('chat');
+                      }}
+                    >
+                      Guide this active agent <ArrowRight size={13} />
+                    </button>
+                  )}
+                <button onClick={() => openFeature(agent.featureId)}>
+                  View feature <ArrowRight size={13} />
+                </button>
+              </div>
+              <details className="agent-metadata">
+                <summary>Model, session and execution details</summary>
+                <dl>
+                  {[
+                    ['Role', label(agent.role)],
+                    [
+                      'Engine',
+                      agent.sessionId
+                        ? label(agent.engine)
+                        : agent.role === 'coordinator'
+                          ? 'Local scheduler'
+                          : label(agent.engine),
+                    ],
+                    ['Requested model', agent.model || 'Native engine default'],
+                    ['Reported model', agent.effectiveModel || 'Not reported'],
+                    ['Engine configuration', agent.configuredModel || 'Not reported'],
+                    ['Effort', agent.effort || 'Native engine default'],
+                    ['Profile', label(agent.profile)],
+                    ['Session', agent.sessionId ?? 'Not reported'],
+                    ['Workspace', agent.workspace],
+                    [
+                      'Input / output tokens',
+                      agent.usage
+                        ? String(agent.usage.inputTokens ?? '?') +
+                          ' / ' +
+                          String(agent.usage.outputTokens ?? '?')
+                        : 'Not reported',
+                    ],
+                    [
+                      'Provider cost estimate',
+                      agent.usage?.costUsd === undefined
+                        ? 'Not reported'
+                        : '$' + agent.usage.costUsd.toFixed(4),
+                    ],
+                  ].map(([key, value]) => (
+                    <React.Fragment key={key}>
+                      <dt>{key}</dt>
+                      <dd>{value}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+                <p className="muted">{agent.selectionReason}</p>
+              </details>
               {agent.native && agent.parentId && (
                 <button onClick={() => setAgent(agent.parentId!)}>Inspect owning parent</button>
               )}
@@ -2044,6 +2224,12 @@ function Conversation({
                   <small>Current model and effort stay fixed during this attempt.</small>
                 </label>
               )}
+              <AvatarCustomizer
+                key={agent.id}
+                agent={agent}
+                preferences={data.avatars ?? {}}
+                save={(appearance) => action('avatar', { agentId: agent.id, appearance })}
+              />
               <h4>Recorded transcript</h4>
               {transcriptHistory.hasMore && (
                 <button disabled={transcriptHistory.loading} onClick={transcriptHistory.load}>
@@ -2104,13 +2290,6 @@ function Conversation({
           {!events.length && <p className="muted inset">No events recorded for this selection.</p>}
         </div>
       )}
-      {!!pending.length && (
-        <div className="approval-queue">
-          {pending.map((a) => (
-            <ApprovalCard key={a.id} approval={a} action={action} />
-          ))}
-        </div>
-      )}
     </aside>
   );
 }
@@ -2118,10 +2297,14 @@ function ChatProposal({
   proposal,
   action,
   disabled,
+  targetName,
+  inspect,
 }: {
   proposal: ChatAction;
   action: (path: string, input: unknown) => Promise<any>;
   disabled: boolean;
+  targetName: string;
+  inspect?: () => void;
 }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState('');
@@ -2139,16 +2322,32 @@ function ChatProposal({
     <div className="chat-proposal">
       <strong>{proposal.title}</strong>
       <small>
-        Target: {proposal.targetId === 'project' ? 'Project' : proposal.targetId.slice(0, 8)} · plan
-        revision {proposal.revision}
+        Target: {targetName} · plan revision {proposal.revision}
       </small>
+      {inspect && (
+        <button className="text-action" onClick={inspect}>
+          View feature
+          <ArrowRight size={13} />
+        </button>
+      )}
       {proposal.status === 'pending' ? (
         <div>
           <button disabled={busy || disabled} onClick={() => decide(false)}>
             Dismiss
           </button>
           <button className="primary" disabled={busy || disabled} onClick={() => decide(true)}>
-            Apply action
+            {busy
+              ? 'Applying…'
+              : {
+                  create_feature: 'Create feature',
+                  plan: 'Analyze feature',
+                  execute: 'Review & start',
+                  pause: 'Pause execution',
+                  resume: 'Resume execution',
+                  stop: 'Stop execution',
+                  retry: 'Retry work',
+                  integrate: 'Continue integration',
+                }[proposal.kind]}
           </button>
         </div>
       ) : (
@@ -2172,6 +2371,7 @@ function ApprovalCard({
   const questions = details?.questions ?? [];
   const reply = async (allow: boolean) => {
     setBusy(true);
+    setError('');
     try {
       await action('approvals', { id: approval.id, allow, answers });
     } catch (e) {
@@ -2186,17 +2386,50 @@ function ApprovalCard({
         <strong>{approval.title}</strong>
       </div>
       <p>{approval.description}</p>
+      {approval.kind === 'plan' && Array.isArray(details?.tickets) && (
+        <div className="approval-plan-summary">
+          <strong>
+            {details.feature?.title || 'Delivery plan'} · revision {approval.revision}
+          </strong>
+          <ul>
+            {details.tickets.map((ticket: Ticket) => (
+              <li key={ticket.id}>{ticket.title}</li>
+            ))}
+          </ul>
+          <p className="muted">
+            Approving allows this plan to proceed under the recorded execution policy. Any
+            additional native access requests remain separate.
+          </p>
+        </div>
+      )}
       {questions.map((q: any) => {
         const key = q.id ?? q.question;
         return (
-          <label className="field" key={key}>
-            {q.question}
+          <div className="field" key={key}>
+            <label htmlFor={`approval-${approval.id}-${key}`}>{q.question}</label>
+            {Array.isArray(q.options) && q.options.length > 0 && (
+              <select
+                aria-label={'Suggested answer: ' + q.question}
+                value={
+                  q.options.some((option: any) => option.label === answers[key]) ? answers[key] : ''
+                }
+                onChange={(e) => setAnswers({ ...answers, [key]: e.target.value })}
+              >
+                <option value="">Choose a suggestion or write below</option>
+                {q.options.map((option: any, index: number) => (
+                  <option key={index} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            )}
             <input
+              id={`approval-${approval.id}-${key}`}
               value={answers[key] ?? ''}
               onChange={(e) => setAnswers({ ...answers, [key]: e.target.value })}
-              placeholder={q.options?.map((o: any) => o.label).join(' / ') || 'Your answer'}
+              placeholder="Your answer"
             />
-          </label>
+          </div>
         );
       })}
       <details>
@@ -2208,8 +2441,18 @@ function ApprovalCard({
         <button disabled={busy} onClick={() => reply(false)}>
           Decline
         </button>
-        <button className="primary" disabled={busy} onClick={() => reply(true)}>
-          {questions.length ? 'Submit answer' : 'Approve'}
+        <button
+          className="primary"
+          disabled={busy || questions.some((q: any) => !answers[q.id ?? q.question]?.trim())}
+          onClick={() => reply(true)}
+        >
+          {busy
+            ? 'Submitting…'
+            : questions.length
+              ? 'Submit answers'
+              : approval.kind === 'plan'
+                ? 'Approve plan & continue'
+                : 'Approve request'}
         </button>
       </div>
     </section>
@@ -2224,6 +2467,7 @@ function NewFeature({
 }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [listening, setListening] = useState(false);
   const [criteria, setCriteria] = useState('');
   const [ref, setRef] = useState('');
   const [busy, setBusy] = useState(false);
@@ -2276,6 +2520,11 @@ function NewFeature({
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
+        <Dictation
+          disabled={busy}
+          onListening={setListening}
+          append={(text) => setDescription((current) => [current, text].filter(Boolean).join(' '))}
+        />
         <details className="optional-fields">
           <summary>Acceptance criteria and source link</summary>
           <label className="field">
@@ -2297,7 +2546,10 @@ function NewFeature({
           <button type="button" onClick={close}>
             Cancel
           </button>
-          <button className="primary" disabled={busy || !title.trim() || !description.trim()}>
+          <button
+            className="primary"
+            disabled={busy || listening || !title.trim() || !description.trim()}
+          >
             {busy ? 'Creating…' : 'Create feature'}
           </button>
         </footer>
@@ -2408,341 +2660,6 @@ function Onboarding({
           <ArrowRight size={14} />
         </button>
       </div>
-    </Dialog>
-  );
-}
-function SettingsDialog({
-  data,
-  close,
-  save,
-}: {
-  data: Snapshot;
-  close: () => void;
-  save: (s: Settings) => Promise<void>;
-}) {
-  const [settings, setSettings] = useState(structuredClone(data.settings));
-  const [catalogs, setCatalogs] = useState<Record<string, any>>({});
-  const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState('');
-  const catalog = async (engine: string) => {
-    setLoading(engine);
-    try {
-      const result = await api('catalog?engine=' + engine);
-      setCatalogs({ ...catalogs, [engine]: result });
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setLoading('');
-    }
-  };
-  return (
-    <Dialog title="Workspace settings" close={close} wide>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setBusy(true);
-          try {
-            await save(settings);
-          } catch (e) {
-            setError((e as Error).message);
-            setBusy(false);
-          }
-        }}
-      >
-        <div className="settings-scroll">
-          <section>
-            <h3>Engines & model routing</h3>
-            <p className="muted">
-              Use your own official CLI login. Tesslane does not collect credentials. An API key
-              configured in your environment may change the billing route.
-            </p>
-            {data.diagnostic.engines.map((e) => (
-              <div className="engine-setting" key={e.name}>
-                <span className="agent-avatar">
-                  <Code2 size={18} />
-                </span>
-                <div>
-                  <strong>{e.name === 'codex' ? 'Codex' : 'Claude Code'}</strong>
-                  <small>{e.available ? e.version : 'Official CLI not installed'}</small>
-                  {catalogs[e.name] && <small>Account: {catalogs[e.name].account}</small>}
-                </div>
-                <button
-                  type="button"
-                  disabled={!e.available || !!loading}
-                  onClick={() => catalog(e.name)}
-                >
-                  {loading === e.name ? 'Discovering…' : 'Discover models'}
-                </button>
-              </div>
-            ))}
-            <div className="profile-grid">
-              {(['fast', 'balanced', 'deep'] as Profile[]).map((p) => {
-                const choice = settings.profiles[p];
-                const models = catalogs[choice.engine]?.models ?? [];
-                return (
-                  <div className="profile-setting" key={p}>
-                    <h4>{label(p)}</h4>
-                    <p>
-                      {p === 'fast'
-                        ? 'Small, well-defined changes'
-                        : p === 'balanced'
-                          ? 'Most implementation work'
-                          : 'Planning, diagnosis and review'}
-                    </p>
-                    <label className="field">
-                      Engine
-                      <select
-                        value={choice.engine}
-                        onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            profiles: {
-                              ...settings.profiles,
-                              [p]: { engine: e.target.value, model: '', effort: '' },
-                            },
-                          })
-                        }
-                      >
-                        <option value="codex">Codex</option>
-                        <option value="claude">Claude Code</option>
-                      </select>
-                    </label>
-                    <label className="field">
-                      Model
-                      <input
-                        list={'models-' + p}
-                        value={choice.model}
-                        placeholder="Native default"
-                        onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            profiles: {
-                              ...settings.profiles,
-                              [p]: { ...choice, model: e.target.value },
-                            },
-                          })
-                        }
-                      />
-                      <datalist id={'models-' + p}>
-                        {models.map((m: any) => (
-                          <option key={m.id} value={m.id}>
-                            {m.name}
-                          </option>
-                        ))}
-                      </datalist>
-                    </label>
-                    <label className="field">
-                      Effort
-                      <input
-                        list={'effort-' + p}
-                        value={choice.effort}
-                        placeholder="Native default"
-                        onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            profiles: {
-                              ...settings.profiles,
-                              [p]: { ...choice, effort: e.target.value },
-                            },
-                          })
-                        }
-                      />
-                      <datalist id={'effort-' + p}>
-                        {(models.find((m: any) => m.id === choice.model)?.efforts ?? []).map(
-                          (s: string) => (
-                            <option key={s}>{s}</option>
-                          ),
-                        )}
-                      </datalist>
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="form-row">
-              <label className="field">
-                Routing strategy
-                <select
-                  value={settings.strategy}
-                  onChange={(e) =>
-                    setSettings({ ...settings, strategy: e.target.value as Settings['strategy'] })
-                  }
-                >
-                  {['balanced', 'economic', 'quality'].map((s) => (
-                    <option key={s} value={s}>
-                      {label(s)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="field">
-                Autonomy
-                <select
-                  value={settings.mode}
-                  onChange={(e) =>
-                    setSettings({ ...settings, mode: e.target.value as Settings['mode'] })
-                  }
-                >
-                  {['planning', 'assisted', 'autonomous'].map((s) => (
-                    <option key={s} value={s}>
-                      {label(s)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <p className="muted">
-              Assisted approves each feature plan. Autonomous skips that gate. Native permissions
-              still apply: engines may run commands permitted by their sandbox. Requests for broader
-              access appear as approvals. Safe worktree edits are covered by the plan.
-            </p>
-          </section>
-          <RoutingSettings
-            settings={settings}
-            setSettings={setSettings}
-            catalogs={catalogs}
-            metrics={data.metrics}
-          />
-          <WorktreeSettings settings={settings} setSettings={setSettings} />
-          <section>
-            <h3>Execution limits</h3>
-            <div className="form-row">
-              {(
-                [
-                  { key: 'maxConcurrent', label: 'Concurrent tickets', min: 1, max: 12 },
-                  { key: 'maxAttempts', label: 'Attempts per ticket', min: 1, max: 8 },
-                  { key: 'diagnoseAfter', label: 'Diagnose after failures', min: 1, max: 5 },
-                ] as const
-              ).map((item) => (
-                <label className="field" key={item.key}>
-                  {item.label}
-                  <input
-                    type="number"
-                    min={item.min}
-                    max={item.max}
-                    value={settings[item.key]}
-                    onChange={(e) =>
-                      setSettings({ ...settings, [item.key]: Number(e.target.value) })
-                    }
-                  />
-                </label>
-              ))}
-            </div>
-            <label className="field">
-              Authorized fallbacks · engine, model, effort per line
-              <textarea
-                rows={2}
-                value={settings.fallbacks
-                  .map((f) => [f.engine, f.model, f.effort].join(','))
-                  .join('\n')}
-                onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    fallbacks: e.target.value
-                      .split('\n')
-                      .filter(Boolean)
-                      .map((line) => {
-                        const [engine, model = '', effort = ''] = line
-                          .split(',')
-                          .map((s) => s.trim());
-                        return { engine: engine as 'codex' | 'claude', model, effort };
-                      }),
-                  })
-                }
-              />
-              <small>
-                Empty means no model or engine fallback. Changes happen between attempts, after
-                diagnosis.
-              </small>
-            </label>
-            <label className="field">
-              Verification commands · one per line
-              <textarea
-                rows={3}
-                value={settings.verificationCommands.join('\n')}
-                onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    verificationCommands: e.target.value.split('\n').filter(Boolean),
-                  })
-                }
-              />
-            </label>
-            <label className="checkbox">
-              <input
-                type="checkbox"
-                checked={settings.allowGitCommit}
-                onChange={(e) => setSettings({ ...settings, allowGitCommit: e.target.checked })}
-              />
-              Allow local ticket commits
-            </label>
-            <label className="checkbox">
-              <input
-                type="checkbox"
-                checked={settings.allowIntegration}
-                onChange={(e) => setSettings({ ...settings, allowIntegration: e.target.checked })}
-              />
-              Allow integration into the feature branch
-            </label>
-          </section>
-          <section>
-            <h3>Appearance & local data</h3>
-            <label className="field">
-              Appearance
-              <select
-                value={settings.theme}
-                onChange={(e) =>
-                  setSettings({ ...settings, theme: e.target.value as Settings['theme'] })
-                }
-              >
-                {['dark', 'light', 'system'].map((s) => (
-                  <option value={s} key={s}>
-                    {label(s)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <p className="path-display">{data.project.dataDir}</p>
-            <div className="form-row">
-              <a className="button-link" href="/api/backup" download>
-                <ArrowDownToLine size={14} />
-                Export workspace state
-              </a>
-              <label className="button-link file-input">
-                Restore into empty workspace
-                <input
-                  type="file"
-                  accept="application/json"
-                  onChange={async (e) => {
-                    try {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      await api('restore', JSON.parse(await file.text()));
-                      window.location.reload();
-                    } catch (e) {
-                      setError((e as Error).message);
-                    }
-                  }}
-                />
-              </label>
-            </div>
-            <p className="muted">
-              The state backup includes records and events. Preserve the Git repository and
-              worktrees separately; restoring does not copy code.
-            </p>
-          </section>
-        </div>
-        {error && <p className="inline-error">{error}</p>}
-        <footer>
-          <button type="button" onClick={close}>
-            Cancel
-          </button>
-          <button className="primary" disabled={busy}>
-            {busy ? 'Saving…' : 'Save settings'}
-          </button>
-        </footer>
-      </form>
     </Dialog>
   );
 }

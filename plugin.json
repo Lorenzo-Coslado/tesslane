@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tesslane",
+  "version": "0.1.0",
+  "description": "A local swarm dashboard for planning, orchestrating and reviewing coding agents.",
+  "author": {
+    "name": "Lorenzo Coslado",
+    "url": "https://github.com/Lorenzo-Coslado"
+  },
+  "homepage": "https://github.com/Lorenzo-Coslado/tesslane",
+  "repository": "https://github.com/Lorenzo-Coslado/tesslane",
+  "license": "MIT",
+  "keywords": ["coding-agents", "swarm", "codex", "claude-code", "dashboard"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Tesslane",
+        "shortDescription": "Your coding swarm, in one local workspace.",
+        "developerName": "Lorenzo Coslado",
+        "category": "Developer Tools",
+        "brandColor": "#AFA8CB",
+        "composerIcon": "./public/tesslane.png",
+        "logo": "./public/tesslane.png"
+      }
+    }
+  }
+}

@@ -1,5 +1,11 @@
 # Tesslane visual proposals
 
+The current application is the product reference. The unaccepted [feature workspace proposal](../../experiments/feature-workspace/README.md) is preserved separately as an archived experiment, outside the production build.
+
+The [8 November 2026 UX research review](./UX-RESEARCH-2026-11-08.md) separates empirical HCI evidence from design guidance, connects it to the remaining workflow questions and provides a concrete evaluation protocol. Its proposed feature-centered interaction model has not yet been validated with users.
+
+The [7 November 2026 interface and workflow audit](./UX-AUDIT-2026-11-07.md) records the original UX problems, rendered evidence and acceptance criteria. Its implementation follow-up records the accepted To do opening view and inline feature decisions. It covers interaction design separately from the earlier visual finish review.
+
 **Variant A is selected.** Preserve its satin-silver relief, lighting, abstract crossing, and dark rounded macOS tile. The unmodified selected image is installed at public/tesslane.png. Other variants remain as exploration history:
 
 - [A: open crossing](./tesslane-icon-variant-a.png)

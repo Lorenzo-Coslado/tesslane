@@ -1,24 +1,24 @@
 # Validation evidence
 
-Verified locally on 7 November 2026 on macOS arm64 with Node.js 26.13.0. These observations distinguish deterministic fixtures, genuine inference and unexecuted targets.
+Latest deterministic verification: 9 November 2026 on macOS arm64 with Node.js 26.13.0. The genuine Codex probe and historical browser observations below were recorded on 7 November 2026. These observations distinguish deterministic fixtures, genuine inference and unexecuted targets.
 
 ## Reproducible local checks
 
-Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 45 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
+Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 53 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
 
 Tests use real SQLite and temporary Git repositories/worktrees. Provider responses are fixtures, including deliberately failed reviews, reported usage limits, mixed-engine fallback, concurrent dependent tickets and interrupted missions.
 
-| Area | Evidence |
-| --- | --- |
-| Chat control | Explicit commands, request UUID deduplication, concrete Assisted gate, stop superseding approvals, active-mission guidance, native acceptance receipts, no late-agent replacement mission, revision-bound action proposals. |
-| Routing | Role/profile strategy, pinned choices, advertised capabilities, invalid model/effort refusal, authorized fallback and quota handling, evidence threshold and bounded adaptation. |
-| Native protocols | Codex JSONL framing/request IDs/native questions/sandbox policy/turn steering/child completion; Claude persistent input queue, UUID correlation, background completion, cumulative results and uncertain input on stop. No Claude inference. |
-| Telemetry | Claude partial/full sibling blocks, envelope deduplication, child/grandchild identities and explicit parent relationships, reported child model, cumulative usage without double counting. |
-| Crash recovery | A separate engine process is actually SIGKILLed at four durable Git checkpoints: before/after worktree creation, after commit, after merge. Reopen, inspect, reconcile and complete without replaying a confirmed implementation or commit. |
-| Git | Actual conflicting merges, ours/theirs/edit, abort preserving ticket commit, stale-HEAD and out-of-scope refusal, repeated staging, resolved merge, combined review and commit-to-execution links. Original branch remains unchanged. |
-| Persistence | Transactional state/event ordering, coherent export/restore, invalid archive rejection without mutation, v1 migration, future-schema refusal, integrity check. |
-| Histories/streaming | 3,000 full 6,000-character messages paginate once each; bounded snapshots under 1 MB in this fixture. SSE Last-Event-ID resumes without duplicate events or command replay. A paused consumer does not block another snapshot request. This is a fixture observation, not a general performance SLA. |
-| Processes/platform paths | Real CLI/tool heartbeat stops after process cleanup, also after SDK-style AbortSignal cancellation. Verified npm shim resolution, paths with spaces and shell metacharacters passed literally. Compiled CLI reuses its instance and restores durable history after restart. |
+| Area                     | Evidence                                                                                                                                                                                                                                                                                             |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat control             | Explicit commands, request UUID deduplication, concrete Assisted gate, stop superseding approvals, active-mission guidance, native acceptance receipts, no late-agent replacement mission, revision-bound action proposals.                                                                          |
+| Routing                  | Role/profile strategy, pinned choices, advertised capabilities, invalid model/effort refusal, authorized fallback and quota handling, evidence threshold and bounded adaptation.                                                                                                                     |
+| Native protocols         | Codex JSONL framing/request IDs/native questions/sandbox policy/turn steering/child completion; Claude persistent input queue, UUID correlation, background completion, cumulative results and uncertain input on stop. No Claude inference.                                                         |
+| Telemetry                | Claude partial/full sibling blocks, envelope deduplication, child/grandchild identities and explicit parent relationships, reported child model, cumulative usage without double counting.                                                                                                           |
+| Crash recovery           | A separate engine process is actually SIGKILLed at four durable Git checkpoints: before/after worktree creation, after commit, after merge. Reopen, inspect, reconcile and complete without replaying a confirmed implementation or commit.                                                          |
+| Git                      | Actual conflicting merges, ours/theirs/edit, abort preserving ticket commit, stale-HEAD and out-of-scope refusal, repeated staging, resolved merge, combined review and commit-to-execution links. Original branch remains unchanged.                                                                |
+| Persistence              | Transactional state/event ordering, coherent export/restore, invalid archive rejection without mutation, v1 migration, future-schema refusal, integrity check.                                                                                                                                       |
+| Histories/streaming      | 3,000 full 6,000-character messages paginate once each; bounded snapshots under 1 MB in this fixture. SSE Last-Event-ID resumes without duplicate events or command replay. A paused consumer does not block another snapshot request. This is a fixture observation, not a general performance SLA. |
+| Processes/platform paths | Real CLI/tool heartbeat stops after process cleanup, also after SDK-style AbortSignal cancellation. Verified npm shim resolution, paths with spaces and shell metacharacters passed literally. Compiled CLI reuses its instance and restores durable history after restart.                          |
 
 ## Genuine Codex delivery
 
@@ -40,14 +40,13 @@ The current captures live in `.impeccable/review/` with `chat-`, `git-`, `routin
 
 `.github/workflows/check.yml` runs the same verification on macOS, Ubuntu and Windows with Node 24 and 26 and uploads its platform result. The workflow performs no provider inference and requires no Claude subscription. The compiled launch test uses paths with spaces and checks singleton/restart behavior. Platform-specific process termination runs on its actual OS when CI executes.
 
-Only the macOS job-equivalent command was executed in this workspace. There is no Git remote/CI run here. A matrix definition, emulated `.cmd` path fixtures on macOS, or code inspection is not a Windows/Linux pass. Those results must come from their native CI jobs; the user does not need to supply or manually operate those machines. Private-runtime installation/download and native vendor CLI behavior on those systems remain separate release validation.
+The local job-equivalent command was executed on macOS. Native Windows/Linux results are published by the [public Check workflow](https://github.com/Lorenzo-Coslado/tesslane/actions/workflows/check.yml); consult the run for the relevant commit. A matrix definition, emulated `.cmd` path fixtures on macOS, or code inspection is not a Windows/Linux pass. Private-runtime installation/download and native vendor CLI behavior on those systems remain separate release validation.
 
 ## Animated round avatars
 
 The shared SVG drives the preview and actual dashboard. At 727×825, 1024×768 and 1280×800, browser checks exercised sphere tint, activity/wait expressions, animation toggle and actual Inspector save/reset. Changing to Mint updated the SVG shell gradient, including its base stop to `#8eb6a2`. Actual graph customization to Sky persisted `#92afcd`, then Reset restored the initial role appearance.
 
 Computed SVG styles showed blink/mouth animations running and distinct mouth scaleY samples (`.517438`, `.712934`). Disabling the toggle paused them. In an explicitly diagnostic short viewport, scrolling the portrait fully offscreen put its bounding-box bottom at `-95.35`; IntersectionObserver disabled animation and the computed eye play state became paused. Returning to a visible normal viewport resumed animation. Static screenshots cannot demonstrate this motion; the live preview can. The reduced-motion media rule is implemented, but native OS preference emulation was not available in this browser test. No audio was added and no model inference was required.
-
 
 ## Worktree preparation, ticket editing and delivery reports
 
@@ -57,4 +56,4 @@ Other cases cover changed inputs while approval is pending (no effects), nonzero
 
 At 1280×800 and 1024×768, the browser exercised ticket edit/save, setup preview from settings, separate feature/ticket setup approvals, retained setup output, simulated completion, report copy and a real Markdown download, manual Git instructions, branch-status refresh and keyboard access to editor actions. Captures in `.impeccable/review/` use `ticket-editor-`, `setup-` and `delivery-` prefixes. No warning/error console messages were observed. These are desktop/laptop viewport captures at the relevant application scroll position. Mobile is outside scope.
 
-No provider inference was made for this extension. The prior genuine Codex result does not prove this new complete journey on a real project. Native Windows/Linux and genuine pnpm/Yarn/Bun setup remain unexecuted. This task does not require another Claude subscription or access to another operating system.
+No provider inference was made for this extension. The prior genuine Codex result does not prove this new complete journey on a real project. Native OS verification is tracked by the public workflow; genuine pnpm/Yarn/Bun setup and private-runtime installation remain separate validation. This task does not require another Claude subscription or access to another operating system.
