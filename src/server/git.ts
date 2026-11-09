@@ -110,13 +110,15 @@ export async function runCheck(
 ) {
   return new Promise<number | null>((resolve, reject) => {
     const windows = process.platform === 'win32';
+    // Match cmd.exe's native command quoting without Node escaping inner quotes.
     const child = spawn(
       windows ? process.env.ComSpec || 'cmd.exe' : '/bin/sh',
-      windows ? ['/d', '/s', '/c', command] : ['-c', command],
+      windows ? ['/d', '/s', '/c', `"${command}"`] : ['-c', command],
       {
         cwd,
         env: { ...process.env, ...environment },
         windowsHide: true,
+        windowsVerbatimArguments: windows,
         detached: !windows,
         stdio: ['ignore', 'pipe', 'pipe'],
       },

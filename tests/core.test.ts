@@ -400,6 +400,9 @@ test('local HTTP rejects cross-origin mutation and requires cookie plus CSRF', a
 
 test('parallel delivery honors dependencies, mixed profiles, and pause/resume across multiple agents', async () => {
   const f = await fixture();
+  let ownedApp: Orchestrator | undefined;
+  let releaseWork!: () => void;
+  const workReleased = new Promise<void>((resolve) => (releaseWork = resolve));
   let active = 0;
   let peak = 0;
   const finished: string[] = [];
@@ -438,9 +441,10 @@ test('parallel delivery honors dependencies, mixed profiles, and pause/resume ac
         assert.ok(await readFile(join(m.cwd, 'alpha.txt'), 'utf8'));
         assert.ok(await readFile(join(m.cwd, 'beta.txt'), 'utf8'));
       }
+      if (name === 'beta') await new Promise((resolve) => setTimeout(resolve, 200));
       active++;
       peak = Math.max(peak, active);
-      await new Promise((r) => setTimeout(r, 100));
+      if (name !== 'gamma') await workReleased;
       await writeFile(join(m.cwd, name + '.txt'), name);
       active--;
       if (name !== 'gamma') finished.push(name);
@@ -450,6 +454,7 @@ test('parallel delivery honors dependencies, mixed profiles, and pause/resume ac
       codex: fake,
       claude: fake,
     });
+    ownedApp = app;
     const feature = app.create({
       title: 'Parallel',
       description: 'Independent lots then dependent work',
@@ -459,10 +464,11 @@ test('parallel delivery honors dependencies, mixed profiles, and pause/resume ac
     const run = app.execute(feature.id);
     await until(() => active === 2);
     app.control(run.id, 'pause');
+    releaseWork();
     await until(() => f.store.get('run', run.id)?.status === 'paused');
     assert.equal(f.store.list('ticket').filter((t) => t.state === 'integrated').length, 0);
     app.control(run.id, 'resume');
-    await until(() => !app.active);
+    await until(() => !app.active, 30000);
     assert.equal(
       f.store.get('feature', feature.id)?.status,
       'integrated',
@@ -472,6 +478,9 @@ test('parallel delivery honors dependencies, mixed profiles, and pause/resume ac
     assert.equal(f.store.list('ticket').filter((t) => t.state === 'integrated').length, 3);
     assert.ok(f.store.list('agent').some((a) => a.engine === 'claude' && a.role === 'implementer'));
   } finally {
+    releaseWork();
+    ownedApp?.stopAll();
+    await until(() => !ownedApp?.active, 30000);
     await f.cleanup();
   }
 });

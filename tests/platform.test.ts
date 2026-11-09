@@ -7,6 +7,35 @@ import { once } from 'node:events';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { programFor, resolveCli, ProcessOwner } from '../src/server/processes.ts';
+import { runCheck } from '../src/server/git.ts';
+
+test('authorized checks preserve quoted code, paths and arguments and return the real exit status', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'tesslane checks & spaces-'));
+  try {
+    const signal = new AbortController().signal;
+    assert.equal(await runCheck(dir, 'node -e "process.exit(7)"', signal, 5000, () => {}), 7);
+    await writeFile(
+      join(dir, 'check with spaces.cjs'),
+      'process.stdout.write(JSON.stringify({arg:process.argv[2],value:process.env.TESSLANE_CHECK_VALUE}));process.exit(3);',
+    );
+    let output = '';
+    const code = await runCheck(
+      dir,
+      'node "check with spaces.cjs" "literal & brackets ()"',
+      signal,
+      5000,
+      (chunk) => (output += chunk),
+      { TESSLANE_CHECK_VALUE: 'approved environment' },
+    );
+    assert.equal(code, 3);
+    assert.deepEqual(JSON.parse(output), {
+      arg: 'literal & brackets ()',
+      value: 'approved environment',
+    });
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
 
 test('skill installation retains launch provenance and UI assets in a destination with spaces', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'tesslane skill install-'));

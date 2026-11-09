@@ -13,5 +13,6 @@ First public source release of Tesslane, the local swarm dashboard.
 - Durable SQLite state, resumable events, Git recovery and manual delivery handoff.
 - Agent Skills entry point, Codex presentation metadata and a portable plugin manifest.
 - Cross-platform verification workflow, contributor documentation and sample-only README media.
+- Native Windows command quoting that preserves actual check/setup exit codes, with coverage for quoted paths and arguments.
 
 This is an early release. The native Codex path has prior local evidence; genuine Claude and mixed-provider inference and broader real-project workloads still need validation. See [implementation status](docs/implementation/STATUS.md).

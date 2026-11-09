@@ -4,7 +4,7 @@ Latest deterministic verification: 9 November 2026 on macOS arm64 with Node.js 2
 
 ## Reproducible local checks
 
-Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 53 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
+Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 54 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
 
 Tests use real SQLite and temporary Git repositories/worktrees. Provider responses are fixtures, including deliberately failed reviews, reported usage limits, mixed-engine fallback, concurrent dependent tickets and interrupted missions.
 

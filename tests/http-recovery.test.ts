@@ -57,7 +57,11 @@ test('a stalled SSE consumer does not block snapshots or other clients', async (
   const http = await startHttp(app, { port: 0, webDir: 'dist/web' });
   let request: ReturnType<typeof get> | undefined;
   try {
-    const session = await fetch(http.url + '/api/session'),
+    // A slow backlog producer can outlast this socket's keep-alive. The
+    // snapshot below represents another client, with its own connection.
+    const session = await fetch(http.url + '/api/session', {
+        headers: { connection: 'close' },
+      }),
       cookie = session.headers.get('set-cookie')!.split(';')[0];
     const paused = new Promise<void>((resolve, reject) => {
       request = get(

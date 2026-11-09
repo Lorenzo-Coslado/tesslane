@@ -25,7 +25,7 @@ The separate [feature workspace prototype](../../experiments/feature-workspace/R
 `npm run verify` passed on **macOS arm64 / Node.js 26.13.0** on 9 November 2026:
 
 - TypeScript and formatting.
-- **53 deterministic tests** using real temporary Git repositories, SQLite, shell checks and provider fixtures.
+- **54 deterministic tests** using real temporary Git repositories, SQLite, shell checks and provider fixtures.
 - Production client/server build.
 - Compiled launch, HTTP readiness, singleton reuse and restart persistence.
 - Skill installation into paths containing spaces, launcher provenance, copied UI assets and invalid-target refusal.
