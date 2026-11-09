@@ -4,3 +4,6 @@
 *.gif binary
 *.webp binary
 *.mp4 binary
+
+# Keep the archived prototype out of application language statistics.
+experiments/** linguist-detectable=false
