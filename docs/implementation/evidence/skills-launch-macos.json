@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-09T09:05:46.070Z",
+  "platform": "darwin",
+  "arch": "arm64",
+  "skillsCli": "1.7.6",
+  "installation": "complete skill folder copied by the actual Vercel CLI from a local source; test telemetry disabled",
+  "bootstrapNode": "v22.20.0",
+  "applicationNode": "v26.13.0",
+  "runtimeCommit": "16b408dd22abcaa11f5cd5ca6e2541f4f4151123",
+  "project": "temporary synthetic Git repository",
+  "httpReady": true,
+  "projectMatched": true,
+  "agents": 0,
+  "features": 0,
+  "providerInference": "not used",
+  "privateRuntimeChecksumVerified": true,
+  "stoppedCleanly": true
+}

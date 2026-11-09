@@ -25,6 +25,8 @@ Provider fixtures exercise orchestration without subscriptions, network inferenc
 
 The explicit native Codex probe in `tests/fixtures/live-codex.ts` is separate. Read its flags and [validation evidence](implementation/VALIDATION.md) before using it; it performs real inference and can consume quota. A passing fixture does not establish actual Claude inference or provider billing behavior.
 
+Standalone skill distribution is covered in `tests/skill-distribution.test.ts`: a copied skill folder, commit validation, native launcher arguments, offline cache reuse, concurrent preparation, changed-cache preservation and failure propagation. These tests use local Git repositories and send no Vercel telemetry. To isolate a manual cold-launch check, use `TESSLANE_RUNTIME_DIR`, `TESSLANE_DATA_DIR` and `TESSLANE_NO_OPEN=1`; npm's cache can be isolated separately with `npm_config_cache`. The launcher prints its actual runtime, engine log and readiness URL.
+
 CI runs the verification command across three operating systems and Node.js 24/26. Actions are pinned to full commit SHAs; Dependabot proposes updates to those pins and npm dependencies. Per-platform JSON reports are attached to each run.
 
 ## Design and historical material

@@ -2,7 +2,7 @@
 
 > Tesslane is an MIT-licensed, local-first AI coding swarm dashboard for Codex and Claude Code. It coordinates feature planning, agent execution, Git worktrees, approvals, checks and independent reviews.
 
-Canonical repository: https://github.com/Lorenzo-Coslado/tesslane. The maintained application is in src/web/. Installation requires a retained full checkout; the agent skill opens the dashboard for a target project.
+Canonical repository: https://github.com/Lorenzo-Coslado/tesslane. The maintained application is in src/web/. Install the skill with the Vercel skills CLI, whose bundled launcher prepares a pinned application release in a local cache. Retained full-checkout installation is also supported; the skill opens the dashboard for the target project.
 
 This is an optional documentation index. Links below point to plain-text sources on the current main branch. Tagged releases and commit URLs identify immutable versions. Provider validation boundaries are recorded in implementation status; the specification and archived experiments contain intended or historical designs.
 
@@ -10,7 +10,7 @@ This is an optional documentation index. Links below point to plain-text sources
 
 - [Swarm Dashboard overview](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/README.md): Product definition, core workflow and quick start.
 - [FAQ](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/FAQ.md): Coding swarm definition, engines, installation, platforms, costs, privacy and citation.
-- [Getting started](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/GETTING_STARTED.md): Prerequisites, full-clone installation, updates and troubleshooting.
+- [Getting started](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/GETTING_STARTED.md): Vercel CLI and retained-clone installation, runtime cache, updates and troubleshooting.
 - [Workspace guide](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/USER_GUIDE.md): Feature decisions, execution controls, delivery and recovery.
 
 ## Architecture and evidence

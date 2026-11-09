@@ -4,7 +4,7 @@ Latest deterministic verification: 9 November 2026 on macOS arm64 with Node.js 2
 
 ## Reproducible local checks
 
-Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 54 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
+Run `npm ci` then `npm run verify`. The command runs TypeScript, Prettier, all 58 automated tests, the production build and a compiled CLI launch/singleton/restart probe. It does not call a model. Results are written to `.tesslane/local/verification/<platform>-<arch>-<node>.json`. A sanitized macOS result is retained under `evidence/`.
 
 Tests use real SQLite and temporary Git repositories/worktrees. Provider responses are fixtures, including deliberately failed reviews, reported usage limits, mixed-engine fallback, concurrent dependent tickets and interrupted missions.
 
@@ -57,3 +57,11 @@ Other cases cover changed inputs while approval is pending (no effects), nonzero
 At 1280×800 and 1024×768, the browser exercised ticket edit/save, setup preview from settings, separate feature/ticket setup approvals, retained setup output, simulated completion, report copy and a real Markdown download, manual Git instructions, branch-status refresh and keyboard access to editor actions. Captures in `.impeccable/review/` use `ticket-editor-`, `setup-` and `delivery-` prefixes. No warning/error console messages were observed. These are desktop/laptop viewport captures at the relevant application scroll position. Mobile is outside scope.
 
 No provider inference was made for this extension. The prior genuine Codex result does not prove this new complete journey on a real project. Native OS verification is tracked by the public workflow; genuine pnpm/Yarn/Bun setup and private-runtime installation remain separate validation. This task does not require another Claude subscription or access to another operating system.
+
+## Standalone skill installation
+
+Verified on 9 November 2026 with the actual Vercel skills CLI 1.7.6. An isolated local-source installation with `--skill tesslane --agent codex --copy --yes` copied SKILL.md, the bundled launcher, Codex metadata and the icon into the test project's skill folder. Test installation telemetry was disabled.
+
+The installed launcher then ran under official Node.js 22.20.0 in a fresh runtime cache. It downloaded the pinned v0.1.0 source, verified commit `16b408dd22abcaa11f5cd5ca6e2541f4f4151123`, prepared the private checksum-verified Node.js 26.13.0 runtime, installed locked dependencies and built the application. HTTP health and the snapshot independently matched the synthetic target project, with zero features and zero agents. The owned engine stopped cleanly. The sanitized result is [skills-launch-macos.json](evidence/skills-launch-macos.json).
+
+A separate forward-test using only a copied skill folder also completed cold preparation and reached the intended project with host Node.js 26.13.0. It made no model requests. Automated distribution fixtures separately cover offline reuse, simultaneous clone publication, changed-cache preservation, literal target paths and launcher failure. Native Windows/Linux fixture results are reported by the public Check workflow; a macOS cold launch is not proof of all native provider or private-runtime download journeys.

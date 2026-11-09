@@ -13,6 +13,7 @@ Plan features, coordinate agents in Git worktrees, and review changes from one w
 [![License: MIT](https://img.shields.io/badge/license-MIT-AFA8CB)](LICENSE)
 [![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-93B5A3)](package.json)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-D0CCD9)](skills/tesslane/SKILL.md)
+[![Skill installs](https://skills.sh/b/Lorenzo-Coslado/tesslane)](https://skills.sh/Lorenzo-Coslado/tesslane)
 [![Latest release](https://img.shields.io/github/v/release/Lorenzo-Coslado/tesslane?color=AFA8CB)](https://github.com/Lorenzo-Coslado/tesslane/releases/latest)
 
 [Get started](#get-started) · [How it works](#how-it-works) · [FAQ](docs/FAQ.md) · [Documentation](#documentation) · [Contribute](CONTRIBUTING.md)
@@ -44,11 +45,28 @@ Use Tesslane to coordinate a coding swarm: break a feature into dependent ticket
 
 ## Get started
 
-You need **Git**, a signed-in **Codex or Claude Code CLI**, and **Bash or PowerShell**. First preparation needs Internet access. The launcher reuses Node.js 24+ or prepares a private checksum-verified runtime.
+You need **Git**, a signed-in **Codex or Claude Code CLI**, and **Bash or PowerShell**. The Vercel skills CLI currently requires **Node.js 22.20+** and npm. First launch prepares the application in a local cache, reusing Node.js 24+ or downloading a private checksum-verified runtime.
 
-### 1. Clone and install the skill
+### 1. Install the skill
 
-Keep the checkout in a stable location:
+For Codex, install it across your projects:
+
+```sh
+npx skills add Lorenzo-Coslado/tesslane --skill tesslane --agent codex --global
+```
+
+For Claude Code:
+
+```sh
+npx skills add Lorenzo-Coslado/tesslane --skill tesslane --agent claude-code --global
+```
+
+These commands work in a terminal on macOS, Linux and Windows. Review the CLI's installation summary when prompted. The [skills.sh badge](https://skills.sh/Lorenzo-Coslado/tesslane) reports installations recorded by this CLI; it is not a count of unique users, repository clones or every installation method. See [installation metrics and privacy](docs/PRIVACY.md#installation-metrics).
+
+<details>
+<summary>Install from a retained source checkout</summary>
+
+You can also keep a complete clone in a stable location:
 
 ```sh
 git clone https://github.com/Lorenzo-Coslado/tesslane.git
@@ -56,18 +74,7 @@ cd tesslane
 bash scripts/install.sh codex
 ```
 
-For Claude Code, use `bash scripts/install.sh claude`.
-
-<details>
-<summary>Windows / PowerShell</summary>
-
-```powershell
-git clone https://github.com/Lorenzo-Coslado/tesslane.git
-cd tesslane
-powershell -File scripts/install.ps1 -Agent codex
-```
-
-Use `-Agent claude` for Claude Code.
+Use `bash scripts/install.sh claude` for Claude Code. On Windows, run `powershell -File scripts/install.ps1 -Agent codex` or use `-Agent claude`. This route can prepare a private Node.js runtime even when Node is not installed on your system. It does not report an installation to skills.sh.
 
 </details>
 
@@ -75,7 +82,7 @@ Use `-Agent claude` for Claude Code.
 
 In **Codex**, invoke `$tesslane`. In **Claude Code**, invoke `/tesslane`.
 
-The skill opens the dashboard for your active project. If it does not appear, restart the agent. Installation uses `~/.agents/skills/tesslane` for Codex or `~/.claude/skills/tesslane` for Claude Code. Keep the full checkout: the installed skill uses it to launch the application.
+The skill opens the dashboard for your active project. If it does not appear, restart the agent. The Vercel installation includes a self-contained launcher that prepares a pinned Tesslane release on first use and reuses its local cache. A source-checkout installation uses the retained clone recorded by its installer.
 
 You can also launch directly:
 
@@ -130,11 +137,12 @@ The entry point follows the open [Agent Skills specification](https://agentskill
 ```text
 skills/tesslane/
 ├── SKILL.md              # Portable instructions and metadata
+├── scripts/open.mjs     # Standalone installation launcher
 ├── agents/openai.yaml   # Codex display metadata
 └── assets/tesslane.png  # Skill icon
 ```
 
-The root [`plugin.json`](plugin.json) describes the full application as a portable plugin package. The supported installation path is the full clone above; this repository is not a claim of public plugin-directory listing or certification. [Packaging details →](docs/GETTING_STARTED.md#skill-and-plugin-packaging)
+The root [`plugin.json`](plugin.json) describes the full application as a portable plugin package. The skill can be installed through the Vercel skills CLI or from a retained full clone. The skills.sh directory and install badge are separate from OpenAI plugin-directory listing or certification. [Packaging details →](docs/GETTING_STARTED.md#skill-and-plugin-packaging)
 
 ## Develop locally
 

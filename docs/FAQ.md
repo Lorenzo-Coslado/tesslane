@@ -24,17 +24,21 @@ Implementation and real-provider validation are distinct. A prior genuine Codex 
 
 ## How do I install the Tesslane agent skill?
 
-Clone the complete repository and retain it in a stable location:
+Install the skill with the Vercel skills CLI:
 
 ```sh
-git clone https://github.com/Lorenzo-Coslado/tesslane.git
-cd tesslane
-bash scripts/install.sh codex
+npx skills add Lorenzo-Coslado/tesslane --skill tesslane --agent codex --global
 ```
 
-Use `bash scripts/install.sh claude` for Claude Code. On Windows, run `powershell -File scripts/install.ps1 -Agent codex` or use `-Agent claude`. Open your target project and invoke `$tesslane` in Codex or `/tesslane` in Claude Code.
+Use `--agent claude-code` for Claude Code. Open your target project and invoke `$tesslane` in Codex or `/tesslane` in Claude Code. The complete skill folder includes a launcher that prepares a pinned Tesslane application release in a local cache; you do not have to retain a separate source clone for this route.
 
-The installer records the full checkout's location. Copying only `SKILL.md` does not install the application. See [getting started](GETTING_STARTED.md) for prerequisites, installation paths, updates and troubleshooting.
+A retained full clone with `scripts/install.sh` or `scripts/install.ps1` remains an alternative. See [getting started](GETTING_STARTED.md) for requirements, installation paths, updates and troubleshooting.
+
+## What does the skills.sh installation badge count?
+
+The badge shows installation events recorded by the Vercel skills CLI for this repository. It does not count Git clones, every installation method, unique people or active dashboard use. The retained-clone installer and direct launcher do not report events to skills.sh. A user who disables the CLI's telemetry is not included through that telemetry path.
+
+Tesslane adds no application telemetry for this counter. See [installation metrics and opt-out](PRIVACY.md#installation-metrics) and [the Vercel CLI documentation](https://skills.sh/docs).
 
 ## Does Tesslane run on macOS, Linux and Windows?
 

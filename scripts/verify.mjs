@@ -11,6 +11,7 @@ const steps = [
       'src',
       'scripts',
       'tests',
+      'skills',
       'vite.config.ts',
     ],
   ],

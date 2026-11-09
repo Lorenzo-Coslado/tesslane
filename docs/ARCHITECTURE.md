@@ -2,6 +2,8 @@
 
 Tesslane connects a small agent skill to a local application. The skill opens the correct project; the application owns planning, policy, scheduling, persistence and delivery.
 
+The Vercel skills CLI installs the complete skill folder. Its bundled `scripts/open.mjs` prepares an exact published application revision in a local runtime cache before invoking the existing platform launcher. Retained source installations continue to use their recorded checkout. Per-project state remains separate from that shared application cache.
+
 ```mermaid
 flowchart TB
     Skill["Agent skill · $tesslane / /tesslane"] --> Launcher["Platform launcher · prepare and reuse"]

@@ -19,3 +19,17 @@ Optional dictation uses the browser's Web Speech recognition service. Some brows
 State exports may include prompts, transcripts, paths and tool output. They do not back up repository files or Git worktrees. Review exports and diagnostics before sharing them. Stop the relevant engine before moving or manually removing its state; preserve worktrees containing useful changes.
 
 README screenshots and the animation show an explicitly labeled sample workspace. No private project database, credential file or live provider transcript is required to reproduce them.
+
+## Installation metrics
+
+Installation through `npx skills add` uses Vercel's external skills CLI. Its installation telemetry supplies the skills.sh directory and the README install-count badge. The CLI records public repository/skill identifiers, selected agents and installation scope; its own documentation describes the telemetry and opt-out. See [Vercel's CLI source](https://github.com/vercel-labs/skills/blob/main/src/telemetry.ts) and [configuration guide](https://github.com/vercel-labs/skills/blob/main/docs/troubleshooting.md#telemetry).
+
+Set `DISABLE_TELEMETRY=1` or `DO_NOT_TRACK=1` in the CLI's environment to opt out. For example, on macOS/Linux:
+
+```sh
+DISABLE_TELEMETRY=1 npx skills add Lorenzo-Coslado/tesslane --skill tesslane --agent codex --global
+```
+
+On PowerShell, set `$env:DISABLE_TELEMETRY = '1'` before running the installation command. This controls Vercel CLI telemetry. Tesslane's dashboard and bundled launcher do not send installation or usage events to Vercel. The retained-clone installer does not report an installation to skills.sh.
+
+The badge counts recorded installations through that channel; it does not measure unique users, all clones, every installation method or active application usage.

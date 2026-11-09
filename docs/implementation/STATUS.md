@@ -18,17 +18,20 @@ The separate [feature workspace prototype](../../experiments/feature-workspace/R
 - Isolated Git worktrees, independent ticket/final review, authorized checks and a delivery report bound to the integration commit.
 - Durable Git operation intents, observed-state reconciliation, explicit conflict resolution and source-branch preservation.
 - SQLite migrations, state export/restore, paginated histories, resumable SSE, singleton launch and owned process cleanup.
-- Agent Skills entry point, Codex UI metadata, portable plugin manifest and clone-based installers.
+- Agent Skills entry point, Codex UI metadata, portable plugin manifest, Vercel skills CLI distribution and retained-clone installers. The standalone skill launcher prepares a commit-verified v0.1.0 app runtime in a local cache.
 
 ## Verified locally for publication
 
 `npm run verify` passed on **macOS arm64 / Node.js 26.13.0** on 9 November 2026:
 
 - TypeScript and formatting.
-- **54 deterministic tests** using real temporary Git repositories, SQLite, shell checks and provider fixtures.
+- **58 deterministic tests** using real temporary Git repositories, SQLite, shell checks and provider fixtures.
 - Production client/server build.
 - Compiled launch, HTTP readiness, singleton reuse and restart persistence.
 - Skill installation into paths containing spaces, launcher provenance, copied UI assets and invalid-target refusal.
+- Standalone skill-folder distribution with real local Git: pinned revision validation, offline cache reuse, concurrent preparation, local-change preservation and native-launch failure propagation.
+
+A copied-folder forward-test and an actual Vercel CLI installation both opened the intended local dashboard without model requests. A cold launch with Node.js 22.20.0 successfully prepared the private Node.js 26.13.0 runtime; see [standalone installation evidence](VALIDATION.md#standalone-skill-installation).
 
 The current skill also passes the reference Agent Skills validator, and the portable manifest passes its published JSON schema. README media was captured from the current application with authored sample data and no provider requests. See [media provenance](../assets/README.md) and the retained [local verification report](evidence/macos-verification.json).
 
