@@ -1,0 +1,30 @@
+cff-version: '1.2.0'
+type: software
+message: >-
+  If you reference Tesslane, use this software citation and identify the
+  release or commit you used.
+title: 'Tesslane: Local AI coding agent dashboard'
+authors:
+  - family-names: 'Coslado'
+    given-names: 'Lorenzo'
+    website: 'https://github.com/Lorenzo-Coslado'
+version: '0.1.0'
+date-released: '2026-11-09'
+license: MIT
+repository-code: 'https://github.com/Lorenzo-Coslado/tesslane'
+url: 'https://github.com/Lorenzo-Coslado/tesslane/releases/tag/v0.1.0'
+abstract: >-
+  Tesslane is an open source, local-first AI coding agent dashboard for
+  Codex and Claude Code. It coordinates feature planning, dependent tickets,
+  approvals, native agent execution, Git worktrees, authorized checks and
+  independent reviews, with durable local state and delivery evidence.
+keywords:
+  - ai-coding
+  - ai-agents
+  - multi-agent
+  - agent-orchestration
+  - codex
+  - claude-code
+  - agent-skills
+  - git-worktrees
+  - local-first

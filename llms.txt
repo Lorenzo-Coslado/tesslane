@@ -1,0 +1,36 @@
+# Tesslane
+
+> Tesslane is an MIT-licensed, local-first AI coding agent dashboard for Codex and Claude Code. It coordinates feature planning, agent execution, Git worktrees, approvals, checks and independent reviews.
+
+Canonical repository: https://github.com/Lorenzo-Coslado/tesslane. The maintained application is in src/web/. Installation requires a retained full checkout; the agent skill opens the dashboard for a target project.
+
+This is an optional documentation index. Links below point to plain-text sources on the current main branch. Tagged releases and commit URLs identify immutable versions. Provider validation boundaries are recorded in implementation status; the specification and archived experiments contain intended or historical designs.
+
+## Start here
+
+- [Overview](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/README.md): Product definition, core workflow and quick start.
+- [FAQ](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/FAQ.md): Engines, installation, platforms, costs, privacy and citation.
+- [Getting started](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/GETTING_STARTED.md): Prerequisites, full-clone installation, updates and troubleshooting.
+- [Workspace guide](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/USER_GUIDE.md): Feature decisions, execution controls, delivery and recovery.
+
+## Architecture and evidence
+
+- [Architecture](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/ARCHITECTURE.md): Local engine, native provider adapters, source map and execution boundaries.
+- [Implementation status](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/implementation/STATUS.md): Implemented behavior, real-provider evidence and remaining validation.
+- [Validation evidence](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/implementation/VALIDATION.md): Reproducible checks and the distinction between fixtures and genuine inference.
+- [Privacy](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/PRIVACY.md): Local state, provider data flow and optional browser dictation.
+- [Security](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/SECURITY.md): Local trust boundary and private vulnerability reporting.
+
+## Development and references
+
+- [Development](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/docs/DEVELOPMENT.md): Commands and test boundaries.
+- [Contributing](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/CONTRIBUTING.md): Contribution workflow and licensing.
+- [Changelog](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/CHANGELOG.md): Release notes.
+- [Citation metadata](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/CITATION.cff): Author, license and published release reference.
+- [Agent skill](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/skills/tesslane/SKILL.md): Launch workflow and environment requirements.
+
+## Optional
+
+- [Glossary](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/GLOSSARY.md): Domain terminology.
+- [Product specification](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/SPECIFICATION.md): Intended scope and acceptance criteria, distinct from verified implementation.
+- [Archived experiments](https://raw.githubusercontent.com/Lorenzo-Coslado/tesslane/main/experiments/README.md): Historical proposals excluded from the maintained product.

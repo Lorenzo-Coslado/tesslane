@@ -1,7 +1,7 @@
 {
   "name": "tesslane",
   "version": "0.1.0",
-  "description": "A local swarm dashboard for planning, orchestrating and reviewing coding agents.",
+  "description": "Open-source, local-first AI coding agent dashboard for Codex and Claude Code. Coordinate multiple agents with Git worktrees, approvals and independent reviews.",
   "author": "Lorenzo Coslado",
   "homepage": "https://github.com/Lorenzo-Coslado/tesslane#readme",
   "repository": {
@@ -12,12 +12,19 @@
     "url": "https://github.com/Lorenzo-Coslado/tesslane/issues"
   },
   "keywords": [
-    "agent-skills",
-    "swarm",
+    "ai-agents",
+    "ai-coding",
+    "agent-orchestration",
+    "multi-agent",
     "codex",
+    "openai-codex",
     "claude-code",
+    "agent-skills",
+    "git-worktrees",
     "local-first",
-    "dashboard"
+    "developer-tools",
+    "dashboard",
+    "swarm"
   ],
   "private": true,
   "type": "module",

@@ -2,19 +2,20 @@
 
 <img src="public/tesslane.png" width="88" height="88" alt="Tesslane silver crossing icon">
 
-# Tesslane
+# Tesslane — local AI coding agent dashboard
 
 **Your coding swarm. One local workspace.**
 
-Plan features, coordinate coding agents, and review what actually shipped.<br>
-A local swarm dashboard for **Codex** and **Claude Code**, launched from an agent skill.
+Tesslane is an **open source, local-first AI coding agent dashboard** for **Codex** and **Claude Code**.<br>
+Plan features, coordinate agents in Git worktrees, and review changes from one workspace.
 
 [![Check](https://github.com/Lorenzo-Coslado/tesslane/actions/workflows/check.yml/badge.svg)](https://github.com/Lorenzo-Coslado/tesslane/actions/workflows/check.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-AFA8CB)](LICENSE)
 [![Node.js 24+](https://img.shields.io/badge/Node.js-24%2B-93B5A3)](package.json)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-compatible-D0CCD9)](skills/tesslane/SKILL.md)
+[![Latest release](https://img.shields.io/github/v/release/Lorenzo-Coslado/tesslane?color=AFA8CB)](https://github.com/Lorenzo-Coslado/tesslane/releases/latest)
 
-[Get started](#get-started) · [How it works](#how-it-works) · [Documentation](#documentation) · [Contribute](CONTRIBUTING.md)
+[Get started](#get-started) · [How it works](#how-it-works) · [FAQ](docs/FAQ.md) · [Documentation](#documentation) · [Contribute](CONTRIBUTING.md)
 
 </div>
 
@@ -25,6 +26,8 @@ A local swarm dashboard for **Codex** and **Claude Code**, launched from an agen
 ## From intention to reviewed change
 
 Working with several coding agents creates a second job: tracking plans, questions, branches, checks and handoffs. Tesslane brings that work into one project workspace, with a visible path from a feature idea to a reviewed Git result.
+
+Use Tesslane for local multi-agent coding workflows: break a feature into dependent tickets, coordinate Codex and Claude Code agents, approve execution, and inspect the resulting checks, reviews and Git commits. The dashboard keeps planning and human review connected to the code being changed.
 
 | You need to…                   | Tesslane gives you…                                                                                                |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
@@ -145,17 +148,18 @@ Use `npm run dev -- --no-open` for the regular development app. CI runs verifica
 
 ## Documentation
 
-| Guide                                                       | What's inside                                                       |
-| ----------------------------------------------------------- | ------------------------------------------------------------------- |
-| [Getting started](docs/GETTING_STARTED.md)                  | Requirements, skill installation, updating and troubleshooting.     |
-| [Workspace guide](docs/USER_GUIDE.md)                       | Features, questions, controls, verification, delivery and recovery. |
-| [Architecture](docs/ARCHITECTURE.md)                        | System diagram, source map and execution boundaries.                |
-| [Development](docs/DEVELOPMENT.md)                          | Local commands, test boundaries and media reproduction.             |
-| [Implementation status](docs/implementation/STATUS.md)      | Proven behavior and remaining validation.                           |
-| [Specification](SPECIFICATION.md) · [Glossary](GLOSSARY.md) | Product contracts and domain terminology.                           |
-| [Design system](DESIGN.md)                                  | Implemented tokens and interaction rules.                           |
-| [Privacy](docs/PRIVACY.md) · [Security](SECURITY.md)        | Local storage, provider data flow and private reporting.            |
-| [Changelog](CHANGELOG.md)                                   | Public release notes.                                               |
+| Guide                                                       | What's inside                                                         |
+| ----------------------------------------------------------- | --------------------------------------------------------------------- |
+| [Getting started](docs/GETTING_STARTED.md)                  | Requirements, skill installation, updating and troubleshooting.       |
+| [Frequently asked questions](docs/FAQ.md)                   | What Tesslane does, supported engines, costs, privacy and validation. |
+| [Workspace guide](docs/USER_GUIDE.md)                       | Features, questions, controls, verification, delivery and recovery.   |
+| [Architecture](docs/ARCHITECTURE.md)                        | System diagram, source map and execution boundaries.                  |
+| [Development](docs/DEVELOPMENT.md)                          | Local commands, test boundaries and media reproduction.               |
+| [Implementation status](docs/implementation/STATUS.md)      | Proven behavior and remaining validation.                             |
+| [Specification](SPECIFICATION.md) · [Glossary](GLOSSARY.md) | Product contracts and domain terminology.                             |
+| [Design system](DESIGN.md)                                  | Implemented tokens and interaction rules.                             |
+| [Privacy](docs/PRIVACY.md) · [Security](SECURITY.md)        | Local storage, provider data flow and private reporting.              |
+| [Changelog](CHANGELOG.md)                                   | Public release notes.                                                 |
 
 Exploratory work is preserved under [`experiments/`](experiments/README.md). The archived feature-workspace prototype was not accepted for the current product and is excluded from the production build.
 
@@ -168,3 +172,5 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUC
 ## License
 
 [MIT](LICENSE) © 2026 Tesslane contributors. The project's source, skill, documentation and original visual assets are open source under this license; third-party dependencies retain their own licenses. Codex and Claude Code are separate products from their respective owners. Tesslane is an independent community project.
+
+For references, use the [canonical repository](https://github.com/Lorenzo-Coslado/tesslane), a specific [release](https://github.com/Lorenzo-Coslado/tesslane/releases), or the metadata in [CITATION.cff](CITATION.cff). A [plain-text documentation index](llms.txt) is available for readers and tools that prefer Markdown sources.
